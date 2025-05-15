@@ -12,6 +12,8 @@ WORKDIR /opt/app
 
 # 2) copy only the manifest so that layer can be cached
 COPY package.json yarn.lock ./
+COPY .yarn/ ./.yarn/
+COPY .yarnrc.yml ./
 COPY ./scripts/ ./scripts/
 
 # 3) enable Corepack and pull down the exact Yarn version (4.9.1 per your packageManager)

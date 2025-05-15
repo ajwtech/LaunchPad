@@ -100,7 +100,7 @@ node_modules
 # Package managers
 ############################
 
-.yarn/*
+
 !.yarn/cache
 !.yarn/unplugged
 !.yarn/patches
@@ -123,7 +123,6 @@ coverage
 .env
 license.txt
 exports
-.strapi
 dist
 build
 .strapi-updater.json

@@ -12137,9 +12137,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"market-forge@workspace:.":
+"marketforge@workspace:.":
   version: 0.0.0-use.local
-  resolution: "market-forge@workspace:."
+  resolution: "marketforge@workspace:."
   dependencies:
     "@_sh/strapi-plugin-ckeditor": "npm:^6.0.1"
     "@strapi/plugin-documentation": "npm:^5.13.0"

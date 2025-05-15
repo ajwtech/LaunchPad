@@ -18,7 +18,7 @@ RUN corepack enable \
  && corepack prepare yarn@4.9.1 --activate
 
 # 4) install into /opt/app/node_modules
-RUN yarn install --immutable || (cat /opt/app/.yarn/build.log || echo "No build log found"; exit 1)
+RUN yarn install --immutable --inline-builds
 
 # 5) now copy the rest of your source
 COPY . .

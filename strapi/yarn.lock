@@ -12128,38 +12128,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"marketforge@workspace:.":
-  version: 0.0.0-use.local
-  resolution: "marketforge@workspace:."
-  dependencies:
-    "@_sh/strapi-plugin-ckeditor": "npm:^6.0.1"
-    "@strapi/plugin-documentation": "npm:^5.13.0"
-    "@strapi/plugin-seo": "npm:^2.0.4"
-    "@strapi/plugin-users-permissions": "npm:5.13.0"
-    "@strapi/strapi": "npm:5.13.0"
-    "@types/lodash": "npm:^4"
-    "@types/node": "npm:^22.15.17"
-    "@types/react": "npm:^18"
-    "@types/react-dom": "npm:^18"
-    better-sqlite3: "npm:11.7.0"
-    dotenv: "npm:^16.5.0"
-    lodash: "npm:^4.17.21"
-    mysql2: "npm:^3.14.1"
-    patch-package: "npm:^8.0.0"
-    pluralize: "npm:^8.0.0"
-    react: "npm:^18.0.0"
-    react-dom: "npm:^18.0.0"
-    react-router-dom: "npm:^6.0.0"
-    sharp: "npm:^0.34.1"
-    strapi-provider-upload-azure-storage: "npm:^3.4.0"
-    styled-components: "npm:^6.0.0"
-    ts-node: "npm:^10.9.2"
-    tunnel-ssh: "npm:^5.2.0"
-    typescript: "npm:^5"
-    uuid: "npm:^10.0.0"
-  languageName: unknown
-  linkType: soft
-
 "match-sorter@npm:^6.0.2":
   version: 6.3.4
   resolution: "match-sorter@npm:6.3.4"
@@ -15743,6 +15711,38 @@ __metadata:
   checksum: 10c0/c78375e82e956d7a64be6e63c809c7f058f5303efcaf62ea48350af072bacdb99c06cba39209b45a071c1acbd49116af30df1df9abb448df78a6005b72f10537
   languageName: node
   linkType: hard
+
+"strapi-app@workspace:.":
+  version: 0.0.0-use.local
+  resolution: "strapi-app@workspace:."
+  dependencies:
+    "@_sh/strapi-plugin-ckeditor": "npm:^6.0.1"
+    "@strapi/plugin-documentation": "npm:^5.13.0"
+    "@strapi/plugin-seo": "npm:^2.0.4"
+    "@strapi/plugin-users-permissions": "npm:5.13.0"
+    "@strapi/strapi": "npm:5.13.0"
+    "@types/lodash": "npm:^4"
+    "@types/node": "npm:^22.15.17"
+    "@types/react": "npm:^18"
+    "@types/react-dom": "npm:^18"
+    better-sqlite3: "npm:11.7.0"
+    dotenv: "npm:^16.5.0"
+    lodash: "npm:^4.17.21"
+    mysql2: "npm:^3.14.1"
+    patch-package: "npm:^8.0.0"
+    pluralize: "npm:^8.0.0"
+    react: "npm:^18.0.0"
+    react-dom: "npm:^18.0.0"
+    react-router-dom: "npm:^6.0.0"
+    sharp: "npm:^0.34.1"
+    strapi-provider-upload-azure-storage: "npm:^3.4.0"
+    styled-components: "npm:^6.0.0"
+    ts-node: "npm:^10.9.2"
+    tunnel-ssh: "npm:^5.2.0"
+    typescript: "npm:^5"
+    uuid: "npm:^10.0.0"
+  languageName: unknown
+  linkType: soft
 
 "strapi-provider-upload-azure-storage@npm:^3.4.0":
   version: 3.4.0

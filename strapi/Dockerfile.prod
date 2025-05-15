@@ -30,11 +30,9 @@ RUN yarn run build
 FROM node:lts-alpine3.20
 RUN apk add --no-cache nasm bash vips-dev curl
 ARG NODE_ENV=production
-WORKDIR /opt/
-COPY --from=build /opt/node_modules ./node_modules
 WORKDIR /opt/app
 COPY --from=build /opt/app ./
-ENV PATH /opt/node_modules/.bin:$PATH
+ENV PATH=/opt/app/node_modules/.bin:$PATH
 
 RUN chown -R node:node /opt/app
 

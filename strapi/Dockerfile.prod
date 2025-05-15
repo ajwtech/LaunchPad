@@ -2,7 +2,7 @@
 FROM node:lts-alpine3.20 AS build
 RUN apk update && apk add --no-cache \
       build-base gcc autoconf automake zlib-dev libpng-dev \
-      nasm bash vips-dev git curl
+      nasm bash vips-dev git curl python3 make g++ libc6-compat
 
 ARG NODE_ENV=production
 ENV NODE_ENV=${NODE_ENV}
@@ -18,7 +18,7 @@ RUN corepack enable \
  && corepack prepare yarn@4.9.1 --activate
 
 # 4) install into /opt/app/node_modules
-RUN yarn install --immutable
+RUN yarn install --immutable || (cat /opt/app/.yarn/build.log || echo "No build log found"; exit 1)
 
 # 5) now copy the rest of your source
 COPY . .

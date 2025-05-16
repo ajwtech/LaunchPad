@@ -32,6 +32,7 @@ RUN yarn run build
 # Creating final production image
 FROM node:lts-alpine3.20
 RUN apk add --no-cache nasm bash vips-dev curl supervisor
+RUN corepack enable && corepack prepare yarn@4.9.1 --activate
 ARG NODE_ENV=production
 WORKDIR /opt/app
 COPY --from=build /opt/app ./

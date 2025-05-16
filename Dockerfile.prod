@@ -26,8 +26,15 @@ RUN yarn install --immutable --inline-builds
 # 5) now copy the rest of your source
 COPY . .
 
-# 6) build in that same folder
-RUN yarn run build
+# Ensure both next/ and strapi/ are present in /opt/app
+# (already handled by COPY . . if both folders are in the build context)
+
+# 6) build both apps
+WORKDIR /opt/app/strapi
+RUN yarn install --immutable --inline-builds && yarn build
+WORKDIR /opt/app/next
+RUN yarn install --immutable --inline-builds && yarn build
+WORKDIR /opt/app
 
 # Creating final production image
 FROM node:lts-alpine3.20
@@ -51,6 +58,6 @@ RUN chmod +x /opt/app/entrypoint.sh
 COPY supervisor.conf /etc/supervisor/conf.d/supervisor.conf
 
 USER node
-EXPOSE 1337
+EXPOSE 1337 3000
 ENTRYPOINT ["/opt/app/entrypoint.sh"]
 CMD ["supervisord", "-c", "/etc/supervisor/conf.d/supervisor.conf"]

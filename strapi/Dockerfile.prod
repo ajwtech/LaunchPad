@@ -48,5 +48,5 @@ RUN chmod +x /opt/app/entrypoint.sh
 
 USER node
 EXPOSE 1337
-ENTRYPOINT ["/opt/app/dev-entrypoint.sh"]
+ENTRYPOINT ["/opt/app/entrypoint.sh"]
 CMD ["supervisord", "-c", "/etc/supervisor/conf.d/supervisor.conf"]

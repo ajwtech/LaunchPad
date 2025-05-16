@@ -48,7 +48,7 @@ ENV PATH=/opt/app/node_modules/.bin:$PATH
 RUN chown -R node:node /opt/app
 
 # Backup the default config files
-RUN mkdir -p /opt/app/config-backup && cp -r /opt/app/config/* /opt/app/config-backup/
+RUN mkdir -p /opt/app/strapi/config-backup && cp -r /opt/app/strapi/config/* /opt/app/strapi/config-backup/
 
 # Copy the entrypoint script and set permissions
 COPY entrypoint.sh /opt/app/entrypoint.sh

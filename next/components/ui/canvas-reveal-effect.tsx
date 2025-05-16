@@ -45,6 +45,7 @@ export const CanvasRevealEffect = ({
         <div className="absolute inset-0 bg-gradient-to-t from-gray-950 to-[84%]" />
       )}
     </div>
+    
   );
 };
 
@@ -93,7 +94,7 @@ const DotMatrix: React.FC<DotMatrixProps> = ({
         colors[2],
       ];
     }
-
+    
     return {
       u_colors: {
         value: colorsArray.map((color) => [

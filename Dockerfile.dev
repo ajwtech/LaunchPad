@@ -44,8 +44,12 @@ ENV PATH=/opt/app/node_modules/.bin:$PATH
 # Copy app files 
 COPY --chown=node:node . .
 
-# Backup config 
-RUN mkdir -p /opt/app/config-backup && cp -r /opt/app/config/* /opt/app/config-backup/
+# Build both apps
+WORKDIR /opt/app/strapi
+RUN yarn install --immutable && yarn build
+WORKDIR /opt/app/next
+RUN yarn install --immutable && yarn build
+WORKDIR /opt/app
 
 # Supervisor config
 COPY --chown=node:node supervisor.conf /etc/supervisor/conf.d/supervisor.conf
@@ -54,11 +58,8 @@ COPY --chown=node:node supervisor.conf /etc/supervisor/conf.d/supervisor.conf
 COPY --chown=node:node entrypoint.sh /opt/app/dev-entrypoint.sh
 RUN chmod +x /opt/app/dev-entrypoint.sh
 
-# Build application
-RUN yarn run build
-
 # Expose necessary ports
-EXPOSE 1337 5173
+EXPOSE 1337 3000
 
 ENTRYPOINT ["/opt/app/dev-entrypoint.sh"]
 CMD ["supervisord", "-c", "/etc/supervisor/conf.d/supervisor.conf"]

@@ -5,7 +5,7 @@
   "description": "A Strapi application",
   "packageManager": "yarn@4.9.1",
   "scripts": {
-    "esc": "esc run ajwtech/marketforge/scouten -- bash -lc \"yarn develop:ssh --debug\"",
+    "esc": "ts-node ./esc.ts",
     "build": "strapi build",
     "deploy": "strapi deploy",
     "develop": "strapi develop",

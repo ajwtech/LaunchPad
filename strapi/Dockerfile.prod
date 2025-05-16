@@ -46,6 +46,9 @@ RUN mkdir -p /opt/app/config-backup && cp -r /opt/app/config/* /opt/app/config-b
 COPY entrypoint.sh /opt/app/entrypoint.sh
 RUN chmod +x /opt/app/entrypoint.sh
 
+# Copy supervisor config
+COPY supervisor.conf /etc/supervisor/conf.d/supervisor.conf
+
 USER node
 EXPOSE 1337
 ENTRYPOINT ["/opt/app/entrypoint.sh"]

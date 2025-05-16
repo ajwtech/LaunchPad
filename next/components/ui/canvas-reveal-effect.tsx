@@ -2,7 +2,8 @@
 import { cn } from "@/lib/utils";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import React, { useMemo, useRef } from "react";
-import * as THREE from "@/node_modules/@types/three";
+//import * as THREE from "@/node_modules/@types/three";
+import * as THREE from "three";
 
 export const CanvasRevealEffect = ({
   animationSpeed = 0.4,
@@ -45,6 +46,7 @@ export const CanvasRevealEffect = ({
         <div className="absolute inset-0 bg-gradient-to-t from-gray-950 to-[84%]" />
       )}
     </div>
+    
   );
 };
 
@@ -93,7 +95,7 @@ const DotMatrix: React.FC<DotMatrixProps> = ({
         colors[2],
       ];
     }
-
+    
     return {
       u_colors: {
         value: colorsArray.map((color) => [

@@ -20,7 +20,7 @@ const args = [
   '--',
   'bash',
   '-lc',
-  'yarn develop:ssh --debug',
+  'yarn develop:ssh',
 ];
 
 const child = spawn('esc', args, {

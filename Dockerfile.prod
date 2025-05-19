@@ -52,11 +52,11 @@ RUN chown -R node:node /opt/app
 RUN mkdir -p /opt/app/strapi/config-backup && cp -r /opt/app/strapi/config/* /opt/app/strapi/config-backup/
 
 # Copy the entrypoint script and set permissions
-COPY entrypoint.sh /opt/app/entrypoint.sh
+COPY launchpad/entrypoint.sh /opt/app/entrypoint.sh
 RUN chmod +x /opt/app/entrypoint.sh
 
 # Copy supervisor config
-COPY supervisor.conf /etc/supervisor/conf.d/supervisor.conf
+COPY launchpad/supervisor.conf /etc/supervisor/conf.d/supervisor.conf
 
 USER node
 EXPOSE 1337 3000

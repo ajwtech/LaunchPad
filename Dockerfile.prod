@@ -43,10 +43,8 @@ RUN apk add --no-cache nasm bash vips-dev curl supervisor
 RUN corepack enable && corepack prepare yarn@4.9.1 --activate
 ARG NODE_ENV=production
 WORKDIR /opt/app
-COPY --from=build /opt/app ./
+COPY --from=build --chown=node:node /opt/app ./
 ENV PATH=/opt/app/node_modules/.bin:$PATH
-
-RUN chown -R node:node /opt/app
 
 # Backup the default config files
 RUN mkdir -p /opt/app/strapi/config-backup && cp -r /opt/app/strapi/config/* /opt/app/strapi/config-backup/

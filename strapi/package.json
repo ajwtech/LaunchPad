@@ -10,8 +10,7 @@
     "deploy": "strapi deploy",
     "develop": "strapi develop",
     "develop:ssh": "ts-node ./dev.ts",
-    "start": "strapi start",
-    "postinstall": "node ./scripts/updateUuid.js"
+    "start": "strapi start"
   },
   "devDependencies": {
     "@types/lodash": "^4",

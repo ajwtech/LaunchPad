@@ -101,13 +101,7 @@ node_modules
 ############################
 
 
-!.yarn/cache
-!.yarn/unplugged
-!.yarn/patches
-!.yarn/releases
-!.yarn/sdks
-!.yarn/versions
-.pnp.*
+
 yarn-error.log
 
 ############################

@@ -11,7 +11,7 @@ async function main(): Promise<void> {
   const extraArgs = process.argv.slice(2);
 
   // 2) Hand off to Strapi via Yarn, forwarding extra args
-  const child = spawn('yarn', ['dev', ...extraArgs], {
+  const child = spawn('yarn', ['develop', ...extraArgs], {
     stdio: 'inherit',
     shell: true, // ensures the command is correctly resolved in all environments
     env: { ...process.env }, // Pass current environment variables to the child process

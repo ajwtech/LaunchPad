@@ -27,9 +27,15 @@ export default function openSshTunnel(): Promise<void> {
   };
 
   // 3) How to SSH into your jumpbox:
+  // Parse host and port from SSH_TUNNEL_HOST in case it contains port
+  const tunnelHostEnv = process.env.SSH_TUNNEL_HOST || '';
+  const [tunnelHost, tunnelPortFromHost] = tunnelHostEnv.includes(':') 
+    ? tunnelHostEnv.split(':') 
+    : [tunnelHostEnv, null];
+  
   const sshOptions: SshOptions = {
-    host:     process.env.SSH_TUNNEL_HOST,   // jumpbox host
-    port:     Number(process.env.SSH_TUNNEL_PORT),
+    host:     tunnelHost,   // jumpbox host without port
+    port:     Number(tunnelPortFromHost || process.env.SSH_TUNNEL_PORT),
     username: process.env.SSH_TUNNEL_USER,
     password: process.env.SSH_TUNNEL_PASSWORD, 
     // –or–

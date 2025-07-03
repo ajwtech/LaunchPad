@@ -1,5 +1,6 @@
 // strapi/tunnel.ts
 // import 'dotenv/config';
+
 import {
   createTunnel,
   TunnelOptions,
@@ -8,11 +9,55 @@ import {
   ForwardOptions,
 } from 'tunnel-ssh';
 
+let tunnelServer: any = null;
+let reconnectAttempts = 0;
+const MAX_RECONNECT_ATTEMPTS = 5;
+const RECONNECT_DELAY = 5000; // 5 seconds
+const CONNECTION_TIMEOUT = 30000; // 30 seconds
+
 export default function openSshTunnel(): Promise<void> {
   if (process.env.USE_SSH_TUNNEL !== 'true') {
     console.log('🔌 SSH tunnel disabled');
     return Promise.resolve();
   }
+
+  return createTunnelWithRetry();
+}
+
+export async function closeTunnel(): Promise<void> {
+  if (tunnelServer) {
+    console.log('🔌 Closing SSH tunnel...');
+    try {
+      tunnelServer.close();
+      tunnelServer = null;
+      console.log('✅ SSH tunnel closed');
+    } catch (err) {
+      console.error('❌ Error closing tunnel:', err);
+    }
+  }
+}
+
+async function createTunnelWithRetry(): Promise<void> {
+  try {
+    await establishTunnel();
+    reconnectAttempts = 0; // Reset on successful connection
+  } catch (err) {
+    console.error('❌ SSH tunnel error:', err);
+    
+    if (reconnectAttempts < MAX_RECONNECT_ATTEMPTS) {
+      reconnectAttempts++;
+      console.log(`🔄 Attempting to reconnect tunnel (${reconnectAttempts}/${MAX_RECONNECT_ATTEMPTS}) in ${RECONNECT_DELAY/1000}s...`);
+      
+      await new Promise(resolve => setTimeout(resolve, RECONNECT_DELAY));
+      return createTunnelWithRetry();
+    } else {
+      console.error('❌ Max reconnection attempts reached. Tunnel failed.');
+      throw err;
+    }
+  }
+}
+
+function establishTunnel(): Promise<void> {
 
   // 1) How the tunnel itself behaves:
   const tunnelOptions: TunnelOptions = {
@@ -37,7 +82,10 @@ export default function openSshTunnel(): Promise<void> {
     host:     tunnelHost,   // jumpbox host without port
     port:     Number(tunnelPortFromHost || process.env.SSH_TUNNEL_PORT),
     username: process.env.SSH_TUNNEL_USER,
-    password: process.env.SSH_TUNNEL_PASSWORD, 
+    password: process.env.SSH_TUNNEL_PASSWORD,
+    readyTimeout: CONNECTION_TIMEOUT,
+    keepaliveInterval: 10000, // Send keepalive every 10 seconds
+    keepaliveCountMax: 3,     // Allow 3 missed keepalive responses
     // –or–
     // privateKey: readFileSync(process.env.SSH_TUNNEL_PRIVATE_KEY_PATH!), // if this is uncommented then you must import fs
     // by adding `import { readFileSync } from 'fs';` to the top of this file
@@ -62,8 +110,36 @@ export default function openSshTunnel(): Promise<void> {
     forwardOptions
   )
     .then(([server]) => {
+      tunnelServer = server;
       console.timeEnd('tunnel-establish');
       console.log('✅ SSH tunnel established');
+      
+      // Set up error handlers for the tunnel
+      server.on('error', (err: Error) => {
+        console.error('🔌 Tunnel server error:', err);
+        if (reconnectAttempts < MAX_RECONNECT_ATTEMPTS) {
+          console.log('🔄 Attempting to reconnect...');
+          setTimeout(() => createTunnelWithRetry(), RECONNECT_DELAY);
+        }
+      });
+      
+      server.on('close', () => {
+        console.log('🔌 Tunnel server closed');
+        tunnelServer = null;
+      });
+      
+      // Set up periodic health check
+      const healthCheck = setInterval(() => {
+        if (!tunnelServer || !tunnelServer.listening) {
+          console.warn('⚠️ Tunnel appears to be down, attempting reconnect...');
+          clearInterval(healthCheck);
+          if (reconnectAttempts < MAX_RECONNECT_ATTEMPTS) {
+            createTunnelWithRetry();
+          }
+        }
+      }, 30000); // Check every 30 seconds
+      
+      return Promise.resolve();
     })
     .catch(err => {
       console.error('❌ SSH tunnel error:', err);

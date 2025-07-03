@@ -14,7 +14,10 @@
     "dev": "yarn concurrently \"cd strapi && yarn develop:ssh\" \"npx wait-on http://localhost:1337 && cd next && yarn dev\"",
     "seed": "cd strapi && yarn strapi import -f ./data/export_20250116105447.tar.gz --force",
     "export": "cd strapi && yarn strapi export --no-encrypt -f ./data/export_20250116105447",
-    "repo:upstream": "git fetch upstream && git merge upstream/main"
+    "repo:upstream": "git fetch upstream && git merge upstream/main",
+    "esc:dev": "esc run ajwtech/scouten/dev-marketforge -- yarn dev",
+    "esc:transfer": "esc run ajwtech/scouten/dev-marketforge -- yarn transfer",
+    "transfer": "cd strapi && ts-node transfer.ts"
   },
   "dependencies": {
     "@types/node": "^22.5.2",

@@ -23,18 +23,31 @@ export default ({ env }) => {
             'DATABASE_SSL_REJECT_UNAUTHORIZED',
             true
           ),
+        },
         enableKeepAlive: true,
         keepAliveInitialDelay: 0,
-        },
+        connectTimeout: env.int('DATABASE_CONNECT_TIMEOUT', 10000), // 10 seconds
+        charset: 'utf8mb4',
       },
       pool: { 
-        min: env.int('DATABASE_POOL_MIN', 0),
+        min: env.int('DATABASE_POOL_MIN', 2),
         max: env.int('DATABASE_POOL_MAX', 10),
-        idleTimeoutMillis: env.int('DATABASE_IDLE_TIMEOUT', 5 * 60 * 1000),
-        acquireTimeoutMillis: env.int('DATABASE_CONNECTION_TIMEOUT', 60000),
+        idleTimeoutMillis: env.int('DATABASE_IDLE_TIMEOUT', 30000), // 30 seconds (reduced from 5 minutes)
+        acquireTimeoutMillis: env.int('DATABASE_CONNECTION_TIMEOUT', 10000), // 10 seconds (reduced from 60 seconds)
+        createTimeoutMillis: env.int('DATABASE_CREATE_TIMEOUT', 10000), // 10 seconds
+        destroyTimeoutMillis: env.int('DATABASE_DESTROY_TIMEOUT', 5000), // 5 seconds
         // verify each new socket before use
         afterCreate: (conn, done) => {
-          conn.ping(err => done(err, conn));
+          conn.ping(err => {
+            if (err) {
+              console.error('🔌 Database connection ping failed:', err);
+            }
+            done(err, conn);
+          });
+        },
+        // Handle connection validation
+        validate: (conn) => {
+          return conn && conn.state !== 'disconnected';
         },
       },
     },
@@ -78,7 +91,9 @@ export default ({ env }) => {
     connection: {
       client,
       ...connections[client],
-      acquireConnectionTimeout: env.int('DATABASE_CONNECTION_TIMEOUT', 60000),
+      acquireConnectionTimeout: env.int('DATABASE_CONNECTION_TIMEOUT', 10000), // Reduced from 60 seconds to 10 seconds
     },
+    // Add debugging for connection issues
+    debug: env.bool('DATABASE_DEBUG', false),
   };
 };

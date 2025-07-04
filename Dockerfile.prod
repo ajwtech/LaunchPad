@@ -22,19 +22,16 @@ RUN corepack enable \
  && corepack prepare yarn@4.9.1 --activate
 
 # 4) install into /opt/app/node_modules
-RUN yarn install --immutable --inline-builds
+RUN yarn install 
 
-# 5) now copy the rest of your source
-COPY launchpad/. .
+# 5) now copy the rest of your source (entire monorepo)
+COPY . .
 
 # Ensure both next/ and strapi/ are present in /opt/app
 # (already handled by COPY . . if both folders are in the build context)
 
 # 6) build both apps
-WORKDIR /opt/app/strapi
-RUN yarn install --immutable --inline-builds && yarn build
-WORKDIR /opt/app/next
-RUN yarn install --immutable --inline-builds && yarn build
+# (No need to run yarn install in subdirectories; handled by root workspace install)
 WORKDIR /opt/app
 
 # Creating final production image
@@ -46,8 +43,11 @@ WORKDIR /opt/app
 COPY --from=build --chown=node:node /opt/app ./
 ENV PATH=/opt/app/node_modules/.bin:$PATH
 
-# Backup the default config files
-RUN mkdir -p /opt/app/strapi/config-backup && cp -r /opt/app/strapi/config/* /opt/app/strapi/config-backup/
+# Backup the default config files (only if config exists and is not empty)
+RUN mkdir -p /opt/app/strapi/config-backup && \
+    if [ -d /opt/app/strapi/config ] && [ "$(ls -A /opt/app/strapi/config 2>/dev/null)" ]; then \
+      cp -r /opt/app/strapi/config/* /opt/app/strapi/config-backup/; \
+    fi
 
 # Copy the entrypoint script and set permissions
 COPY launchpad/entrypoint.sh /opt/app/entrypoint.sh

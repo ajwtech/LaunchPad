@@ -12,9 +12,9 @@ WORKDIR /opt/app
 
 # 2) copy only the manifest so that layer can be cached
 COPY launchpad/package.json ./
-COPY launchpad/yarn.lock ./
-COPY launchpad/.yarn/ ./.yarn/
-COPY launchpad/.yarnrc.yml ./
+COPY yarn.lock ./
+COPY .yarn/ ./.yarn/
+COPY .yarnrc.yml ./
 COPY launchpad/scripts/ ./scripts/
 
 # 3) enable Corepack and pull down the exact Yarn version (4.9.1 per your packageManager)

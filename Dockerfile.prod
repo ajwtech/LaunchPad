@@ -12,17 +12,15 @@ WORKDIR /workspace
 
 # 2) Copy root package.json, yarn configuration and lock files first for better caching
 COPY package.json yarn.lock .yarnrc.yml ./
-# Copy yarn configuration but exclude cache to avoid platform-specific issues
-COPY .yarn/releases ./.yarn/releases
-COPY .yarn/plugins ./.yarn/plugins
+
+# Note: Skipping .yarn/ copy since we're using corepack for yarn management
+# and excluding cache to avoid platform-specific issues
 
 # 3) Copy all workspace package.json files and necessary scripts for dependency resolution
 COPY launchpad/package.json ./launchpad/
 COPY launchpad/scripts/ ./launchpad/scripts/
 COPY launchpad/next/package.json ./launchpad/next/
 COPY launchpad/strapi/package.json ./launchpad/strapi/
-COPY azure-deploy/package.json ./azure-deploy/
-COPY suitecrm/SuiteCRM-Core/package.json ./suitecrm/SuiteCRM-Core/
 
 # 4) Enable Corepack and prepare Yarn
 RUN corepack enable \
@@ -33,8 +31,12 @@ RUN corepack enable \
 ENV YARN_CHECKSUM_BEHAVIOR=ignore
 RUN yarn install --immutable --inline-builds
 
-# 6) Copy the rest of the source code
-COPY . .
+# 6) Copy only the necessary source code for builds
+# Copy launchpad source code only (what we actually need to build)
+COPY launchpad/next ./launchpad/next
+COPY launchpad/strapi ./launchpad/strapi
+COPY launchpad/entrypoint.sh ./launchpad/entrypoint.sh
+COPY launchpad/supervisor.conf ./launchpad/supervisor.conf
 
 # 7) Build the applications in the correct working directories
 # Build Next.js app
@@ -64,8 +66,6 @@ COPY --from=build --chown=node:node /workspace/yarn.lock ./yarn.lock
 COPY --from=build --chown=node:node /workspace/.yarn ./.yarn
 COPY --from=build --chown=node:node /workspace/node_modules ./node_modules
 COPY --from=build --chown=node:node /workspace/launchpad ./launchpad
-COPY --from=build --chown=node:node /workspace/azure-deploy ./azure-deploy
-COPY --from=build --chown=node:node /workspace/suitecrm ./suitecrm
 
 # Set PATH to include node_modules/.bin
 ENV PATH=/opt/app/node_modules/.bin:$PATH

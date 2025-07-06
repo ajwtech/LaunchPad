@@ -12,7 +12,9 @@ WORKDIR /workspace
 
 # 2) Copy root package.json, yarn configuration and lock files first for better caching
 COPY package.json yarn.lock .yarnrc.yml ./
-COPY .yarn/ ./.yarn/
+# Copy yarn configuration but exclude cache to avoid platform-specific issues
+COPY .yarn/releases ./.yarn/releases
+COPY .yarn/plugins ./.yarn/plugins
 
 # 3) Copy all workspace package.json files and necessary scripts for dependency resolution
 COPY launchpad/package.json ./launchpad/
@@ -27,7 +29,7 @@ RUN corepack enable \
  && corepack prepare yarn@4.9.1 --activate
 
 # 5) Install all dependencies for the monorepo
-# Disable checksum verification in Docker environment to avoid network/cache issues
+# Disable checksum verification and let Yarn build its own cache
 ENV YARN_CHECKSUM_BEHAVIOR=ignore
 RUN yarn install --immutable --inline-builds
 

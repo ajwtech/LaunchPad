@@ -26,13 +26,9 @@ COPY suitecrm/SuiteCRM-Core/package.json ./suitecrm/SuiteCRM-Core/
 RUN corepack enable \
  && corepack prepare yarn@4.9.1 --activate
 
-# 5) Install all dependencies for the monorepo with proper error handling
-# First attempt with immutable install, fallback to less strict mode if checksums fail
-RUN yarn install --immutable --inline-builds || \
-    (echo "Installation failed due to checksum issues, attempting with relaxed constraints..." && \
-     yarn cache clean --all && \
-     rm -rf node_modules && \
-     YARN_CHECKSUM_BEHAVIOR=ignore yarn install --no-immutable)
+# 5) Install all dependencies for the monorepo
+# Since we've cleaned up conflicting configurations, use straightforward approach
+RUN yarn install --immutable --inline-builds
 
 # 6) Copy the rest of the source code
 COPY . .

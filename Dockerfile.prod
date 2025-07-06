@@ -7,46 +7,72 @@ RUN apk update && apk add --no-cache \
 ARG NODE_ENV=production
 ENV NODE_ENV=${NODE_ENV}
 
-# 1) switch into /opt/app — this is where your package.json lives
-WORKDIR /opt/app
+# 1) Set up workspace at root level to handle monorepo properly
+WORKDIR /workspace
 
-# 2) copy only the manifest so that layer can be cached
-COPY launchpad/package.json ./
-COPY yarn.lock ./
+# 2) Copy root package.json, yarn configuration and lock files first for better caching
+COPY package.json yarn.lock .yarnrc.yml ./
 COPY .yarn/ ./.yarn/
-COPY .yarnrc.yml ./
-COPY launchpad/scripts/ ./scripts/
 
-# 3) enable Corepack and pull down the exact Yarn version (4.9.1 per your packageManager)
+# 3) Copy all workspace package.json files and necessary scripts for dependency resolution
+COPY launchpad/package.json ./launchpad/
+COPY launchpad/scripts/ ./launchpad/scripts/
+COPY launchpad/next/package.json ./launchpad/next/
+COPY launchpad/strapi/package.json ./launchpad/strapi/
+COPY azure-deploy/package.json ./azure-deploy/
+COPY suitecrm/SuiteCRM-Core/package.json ./suitecrm/SuiteCRM-Core/
+
+# 4) Enable Corepack and prepare Yarn
 RUN corepack enable \
  && corepack prepare yarn@4.9.1 --activate
 
-# 4) install into /opt/app/node_modules
-RUN yarn install 
+# 5) Install all dependencies for the monorepo with proper error handling
+RUN yarn install --immutable --inline-builds || \
+    (echo "Installation failed, attempting with cache clean..." && \
+     yarn cache clean --all && \
+     YARN_HTTP_TIMEOUT=300000 YARN_NETWORK_TIMEOUT=300000 yarn install --mode=skip-build --check-cache=false)
 
-# 5) now copy the rest of your source (entire monorepo)
+# 6) Copy the rest of the source code
 COPY . .
 
-# Ensure both next/ and strapi/ are present in /opt/app
-# (already handled by COPY . . if both folders are in the build context)
+# 7) Build the applications in the correct working directories
+# Build Next.js app
+WORKDIR /workspace/launchpad/next
+RUN yarn build
 
-# 6) build both apps
-# (No need to run yarn install in subdirectories; handled by root workspace install)
-WORKDIR /opt/app
+# Build Strapi app  
+WORKDIR /workspace/launchpad/strapi
+RUN yarn build
 
 # Creating final production image
 FROM node:lts-alpine3.20
-RUN apk add --no-cache nasm bash vips-dev curl supervisor
+RUN apk add --no-cache nasm bash vips-dev curl supervisor && \
+    rm -rf /var/cache/apk/*
+
 RUN corepack enable && corepack prepare yarn@4.9.1 --activate
+
 ARG NODE_ENV=production
+ENV NODE_ENV=${NODE_ENV}
+
 WORKDIR /opt/app
-COPY --from=build --chown=node:node /opt/app ./
+
+# Copy built application from build stage (only production files)
+COPY --from=build --chown=node:node /workspace/package.json ./package.json
+COPY --from=build --chown=node:node /workspace/.yarnrc.yml ./.yarnrc.yml
+COPY --from=build --chown=node:node /workspace/yarn.lock ./yarn.lock
+COPY --from=build --chown=node:node /workspace/.yarn ./.yarn
+COPY --from=build --chown=node:node /workspace/node_modules ./node_modules
+COPY --from=build --chown=node:node /workspace/launchpad ./launchpad
+COPY --from=build --chown=node:node /workspace/azure-deploy ./azure-deploy
+COPY --from=build --chown=node:node /workspace/suitecrm ./suitecrm
+
+# Set PATH to include node_modules/.bin
 ENV PATH=/opt/app/node_modules/.bin:$PATH
 
 # Backup the default config files (only if config exists and is not empty)
-RUN mkdir -p /opt/app/strapi/config-backup && \
-    if [ -d /opt/app/strapi/config ] && [ "$(ls -A /opt/app/strapi/config 2>/dev/null)" ]; then \
-      cp -r /opt/app/strapi/config/* /opt/app/strapi/config-backup/; \
+RUN mkdir -p /opt/app/launchpad/strapi/config-backup && \
+    if [ -d /opt/app/launchpad/strapi/config ] && [ "$(ls -A /opt/app/launchpad/strapi/config 2>/dev/null)" ]; then \
+      cp -r /opt/app/launchpad/strapi/config/* /opt/app/launchpad/strapi/config-backup/; \
     fi
 
 # Copy the entrypoint script and set permissions

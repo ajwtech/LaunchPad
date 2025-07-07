@@ -37,6 +37,18 @@ export default [
     },
   },
   'strapi::cors',
+  {
+    name: 'strapi::cors',
+    config: {
+      origin: [
+        `https://${process.env.DOMAIN}`,
+        `https://beta.${process.env.DOMAIN.replace(/^cms\./, '')}`
+      ],
+      methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+      headers: '*',
+      credentials: true,
+    },
+  },
   'strapi::poweredBy',
   'strapi::query',
   'strapi::body',

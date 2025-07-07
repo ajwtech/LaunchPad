@@ -29,7 +29,7 @@ RUN corepack enable \
 # 5) Install all dependencies for the monorepo
 # Disable checksum verification and let Yarn build its own cache
 ENV YARN_CHECKSUM_BEHAVIOR=ignore
-RUN yarn install --immutable --inline-builds
+RUN yarn install --inline-builds
 
 # 6) Copy only the necessary source code for builds
 # Copy launchpad source code only (what we actually need to build)

@@ -40,10 +40,21 @@ export default [
   {
     name: 'strapi::cors',
     config: {
-      origin: [
-        `https://${process.env.DOMAIN}`,
-        `https://beta.${process.env.DOMAIN.replace(/^cms\./, '')}`
-      ],
+      origin: (() => {
+        const domain = process.env.DOMAIN;
+        if (!domain) {
+          // During build time, allow all origins since env vars aren't available
+          return ['*'];
+        }
+        const baseDomain = domain.replace(/^cms\./, '');
+        return [
+          `https://${domain}`,
+          `https://beta.${baseDomain}`,
+          // Add localhost for development
+          'http://localhost:3000',
+          'http://localhost:1337'
+        ];
+      })(),
       methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
       headers: '*',
       credentials: true,

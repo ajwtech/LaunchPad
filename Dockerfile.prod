@@ -24,7 +24,7 @@ COPY launchpad/strapi/package.json ./launchpad/strapi/
 
 # 4) Enable Corepack and prepare Yarn
 RUN corepack enable \
- && corepack prepare yarn@4.9.1 --activate
+ && corepack prepare yarn@4.9.2 --activate
 
 # 5) Install all dependencies for the monorepo
 # Disable checksum verification and let Yarn build its own cache
@@ -52,7 +52,7 @@ FROM node:lts-alpine3.20
 RUN apk add --no-cache nasm bash vips-dev curl supervisor && \
     rm -rf /var/cache/apk/*
 
-RUN corepack enable && corepack prepare yarn@4.9.1 --activate
+RUN corepack enable && corepack prepare yarn@4.9.2 --activate
 
 ARG NODE_ENV=production
 ENV NODE_ENV=${NODE_ENV}

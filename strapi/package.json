@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "description": "A Strapi application",
-  "packageManager": "yarn@4.9.1",
+  "packageManager": "yarn@4.9.2",
   "scripts": {
     "esc": "ts-node ./esc.ts",
     "build": "strapi build",
@@ -24,13 +24,11 @@
     "typescript": "^5"
   },
   "dependencies": {
-    "@_sh/strapi-plugin-ckeditor": "^6.0.1",
-    "@strapi/plugin-cloud": "5.17.0",
+    "@_sh/strapi-plugin-ckeditor": "^6.0.2",
     "@strapi/plugin-documentation": "^5.17.0",
-    "@strapi/plugin-seo": "^2.0.4",
+    "@strapi/plugin-seo": "^2.0.8",
     "@strapi/plugin-users-permissions": "5.17.0",
     "@strapi/strapi": "5.17.0",
-    "better-sqlite3": "11.7.0",
     "lodash": "^4.17.21",
     "mysql2": "^3.14.1",
     "patch-package": "^8.0.0",
@@ -38,8 +36,8 @@
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-router-dom": "^6.0.0",
-    "strapi-provider-upload-azure-storage": "^3.4.0",
-    "styled-components": "^6.0.0",
+    "strapi-provider-upload-azure-storage": "^3.5.0",
+    "styled-components": "^6.1.19",
     "uuid": "^10.0.0"
   },
   "author": {

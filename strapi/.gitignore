@@ -121,3 +121,6 @@ dist
 build
 .strapi-updater.json
 .strapi-cloud.json
+
+# Auto-generated documentation
+src/extensions/documentation/documentation/*/full_documentation.json

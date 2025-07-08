@@ -1,13 +1,15 @@
 import path from 'path';
 
 export default ({ env }) => {
-  const client = env('DATABASE_CLIENT', 'sqlite');
+  const client = env('DATABASE_CLIENT', 'mysql');
+  const host = env('DB_LOCAL_HOST', env('DATABASE_HOST', 'localhost'));
+  const port = env.int('DB_LOCAL_PORT', env.int('DATABASE_PORT', 33306));
 
   const connections = {
     mysql: {
       connection: {
-        host: env('DATABASE_HOST', 'localhost'),
-        port: env.int('DATABASE_PORT', 3306),
+        host,
+        port,
         database: env('DATABASE_NAME', 'strapi'),
         user: env('DATABASE_USERNAME', 'strapi'),
         password: env('DATABASE_PASSWORD', 'strapi'),
@@ -21,9 +23,20 @@ export default ({ env }) => {
             'DATABASE_SSL_REJECT_UNAUTHORIZED',
             true
           ),
+        enableKeepAlive: true,
+        keepAliveInitialDelay: 0,
         },
       },
-      pool: { min: env.int('DATABASE_POOL_MIN', 2), max: env.int('DATABASE_POOL_MAX', 10) },
+      pool: { 
+        min: env.int('DATABASE_POOL_MIN', 0),
+        max: env.int('DATABASE_POOL_MAX', 10),
+        idleTimeoutMillis: env.int('DATABASE_IDLE_TIMEOUT', 5 * 60 * 1000),
+        acquireTimeoutMillis: env.int('DATABASE_CONNECTION_TIMEOUT', 60000),
+        // verify each new socket before use
+        afterCreate: (conn, done) => {
+          conn.ping(err => done(err, conn));
+        },
+      },
     },
     postgres: {
       connection: {

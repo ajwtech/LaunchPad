@@ -1,34 +1,44 @@
 {
-  "name": "strapi",
-  "private": true,
+  "name": "market-forge",
   "version": "0.1.0",
+  "private": true,
   "description": "A Strapi application",
   "scripts": {
-    "develop": "strapi develop",
-    "start": "strapi start",
+    "esc": "esc run ajwtech/marketforge/scouten -- bash -lc \"yarn develop:ssh --debug\"",
     "build": "strapi build",
-    "strapi": "strapi",
     "deploy": "strapi deploy",
-    "seed": "strapi import -f ./data/export_20250116105447.tar.gz",
+    "develop": "strapi develop",
+    "develop:ssh": "ts-node ./dev.ts",
+    "start": "strapi start",
     "postinstall": "node ./scripts/updateUuid.js"
   },
   "devDependencies": {
-    "@types/node": "^20",
+    "@types/lodash": "^4",
+    "@types/node": "^22.15.17",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "dotenv": "^16.5.0",
+    "sharp": "^0.34.1",
+    "ts-node": "^10.9.2",
+    "tunnel-ssh": "^5.2.0",
     "typescript": "^5"
   },
   "dependencies": {
+    "@_sh/strapi-plugin-ckeditor": "^6.0.1",
     "@strapi/plugin-cloud": "5.17.0",
+    "@strapi/plugin-documentation": "^5.17.0",
     "@strapi/plugin-seo": "^2.0.4",
     "@strapi/plugin-users-permissions": "5.17.0",
     "@strapi/strapi": "5.17.0",
     "better-sqlite3": "11.7.0",
+    "lodash": "^4.17.21",
+    "mysql2": "^3.14.1",
     "patch-package": "^8.0.0",
     "pluralize": "^8.0.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-router-dom": "^6.0.0",
+    "strapi-provider-upload-azure-storage": "^3.4.0",
     "styled-components": "^6.0.0",
     "uuid": "^10.0.0"
   },
@@ -36,7 +46,7 @@
     "name": "A Strapi developer"
   },
   "strapi": {
-    "uuid": "LAUNCHPAD"
+    "uuid": "LAUNCHPAD-LOCAL-73564813-5edb-4db6-af7d-9c0351af3501"
   },
   "engines": {
     "node": ">=18.0.0 <=22.x.x",

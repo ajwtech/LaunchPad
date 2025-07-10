@@ -1,5 +1,50 @@
 import type { Schema, Struct } from '@strapi/strapi';
 
+export interface BackgroundSettings extends Struct.ComponentSchema {
+  collectionName: 'components_background_settings';
+  info: {
+    description: 'Configurable background options with light/dark mode support';
+    displayName: 'Background Settings';
+  };
+  attributes: {
+    darkColor: Schema.Attribute.String;
+    darkGradient: Schema.Attribute.Text;
+    darkImage: Schema.Attribute.Media<'images'>;
+    darkPattern: Schema.Attribute.Media<'images'>;
+    lightColor: Schema.Attribute.String;
+    lightGradient: Schema.Attribute.Text;
+    lightImage: Schema.Attribute.Media<'images'>;
+    lightPattern: Schema.Attribute.Media<'images'>;
+    opacity: Schema.Attribute.Decimal &
+      Schema.Attribute.SetMinMax<
+        {
+          max: 1;
+          min: 0;
+        },
+        number
+      > &
+      Schema.Attribute.DefaultTo<1>;
+    overlay: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    overlayOpacity: Schema.Attribute.Decimal &
+      Schema.Attribute.SetMinMax<
+        {
+          max: 1;
+          min: 0;
+        },
+        number
+      > &
+      Schema.Attribute.DefaultTo<0.3>;
+    preset: Schema.Attribute.Enumeration<
+      ['dark-elegant', 'purple-theme', 'sunset', 'ocean', 'cosmic', 'aurora']
+    >;
+    type: Schema.Attribute.Enumeration<
+      ['color', 'gradient', 'image', 'pattern', 'preset']
+    > &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<'preset'>;
+  };
+}
+
 export interface CardsGlobeCard extends Struct.ComponentSchema {
   collectionName: 'components_cards_globe_cards';
   info: {
@@ -508,6 +553,7 @@ export interface SharedUser extends Struct.ComponentSchema {
 declare module '@strapi/strapi' {
   export module Public {
     export interface ComponentSchemas {
+      'background.settings': BackgroundSettings;
       'cards.globe-card': CardsGlobeCard;
       'cards.graph-card': CardsGraphCard;
       'cards.ray-card': CardsRayCard;

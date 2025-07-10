@@ -1,9 +1,13 @@
 import type { Viewport } from "next";
 import { Locale, i18n } from '@/i18n.config'
+import Script from 'next/script';
 
 import "./globals.css";
 
 import { SlugProvider } from "./context/SlugContext";
+import { ThemeProvider } from "@/context/ThemeContext";
+import { ToastProvider } from "@/context/ToastContext";
+import { ErrorBoundary } from "@/lib/shared/ErrorBoundary";
 
 export const viewport: Viewport = {
   themeColor: [
@@ -26,9 +30,19 @@ export default function RootLayout({
   return (
     <html lang={params.lang} suppressHydrationWarning>
       <body suppressHydrationWarning>
-        <SlugProvider>
-          {children}
-        </SlugProvider>
+        <Script 
+          src="/suppress-extension-errors.js" 
+          strategy="beforeInteractive"
+        />
+        <ErrorBoundary>
+          <ToastProvider>
+            <ThemeProvider>
+              <SlugProvider>
+                {children}
+              </SlugProvider>
+            </ThemeProvider>
+          </ToastProvider>
+        </ErrorBoundary>
       </body>
     </html>
   );

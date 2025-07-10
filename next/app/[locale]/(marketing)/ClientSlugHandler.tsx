@@ -1,15 +1,21 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useSlugContext } from "@/app/context/SlugContext";
+import { useToast } from "@/context/ToastContext";
 import { useRouter } from "next/navigation";
 
 export default function ClientSlugHandler({
   localizedSlugs,
+  missingSlug,
 }: {
   localizedSlugs: Record<string, string>;
+  missingSlug?: string;
 }) {
   const { dispatch } = useSlugContext();
+  const { showToast } = useToast();
+  const router = useRouter();
+  const toastShownRef = useRef(false);
 
   useEffect(() => {
     if (localizedSlugs) {
@@ -17,7 +23,16 @@ export default function ClientSlugHandler({
     }
   }, [localizedSlugs, dispatch]);
 
-  const router = useRouter();
+  useEffect(() => {
+    if (missingSlug && !toastShownRef.current) {
+      toastShownRef.current = true;
+      showToast(
+        `Page "${missingSlug}" not found. Showing home page instead.`,
+        'warning',
+        6000
+      );
+    }
+  }, [missingSlug, showToast]);
 
   useEffect(() => {
     const handleMessage = async (message: MessageEvent<any>) => {

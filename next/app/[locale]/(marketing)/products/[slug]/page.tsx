@@ -1,9 +1,9 @@
 import { Metadata } from "next";
 
-import { redirect } from "next/navigation";
 import { Container } from "@/components/container";
 import { AmbientColor } from "@/components/decorations/ambient-color";
 import { SingleProduct } from "@/components/products/single-product";
+import ProductNotFound from "@/components/products/ProductNotFound";
 import DynamicZoneManager from '@/components/dynamic-zone/manager'
 import { generateMetadataObject } from '@/lib/shared/metadata';
 
@@ -36,7 +36,7 @@ export default async function SingleProductPage({
   }, true)
 
   if (!product) {
-    redirect("/products");
+    return <ProductNotFound slug={params.slug} locale={params.locale} />;
   }
 
   return (

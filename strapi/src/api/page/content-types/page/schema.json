@@ -55,6 +55,16 @@
         "dynamic-zone.form-next-to-section",
         "dynamic-zone.faq"
       ]
+    },
+    "backgroundSettings": {
+      "type": "component",
+      "repeatable": false,
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      },
+      "component": "background.settings"
     }
   }
 }

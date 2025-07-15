@@ -89,60 +89,62 @@ export const ToastProvider: React.FC<ToastProviderProps> = ({ children }) => {
   return (
     <ToastContext.Provider value={{ showToast, hideToast }}>
       {children}
-      <div className="fixed top-4 right-4 z-50 space-y-3 pointer-events-none">
-        <AnimatePresence mode="popLayout">
-          {toasts.map(toast => (
-            <motion.div
-              key={toast.id}
-              initial={{ opacity: 0, x: 100, scale: 0.8 }}
-              animate={{ opacity: 1, x: 0, scale: 1 }}
-              exit={{ opacity: 0, x: 100, scale: 0.8 }}
-              transition={{ 
-                type: "spring",
-                stiffness: 300,
-                damping: 30,
-                duration: 0.3 
-              }}
-              className={`
-                relative flex items-center gap-3 px-5 py-4 rounded-2xl shadow-2xl 
-                min-w-[320px] max-w-[500px] pointer-events-auto cursor-pointer border border-white/10
-                font-medium text-sm leading-relaxed backdrop-blur-xl backdrop-saturate-150
-                before:absolute before:inset-0 before:rounded-2xl before:bg-gradient-to-br 
-                before:from-white/15 before:via-white/5 before:to-transparent before:pointer-events-none
-                after:absolute after:top-0 after:left-6 after:right-6 after:h-px 
-                after:bg-gradient-to-r after:from-transparent after:via-white/30 after:to-transparent
-                ${getToastStyles(toast.type)}
-              `}
-              onClick={() => hideToast(toast.id)}
-            >
-              <span className="relative z-10 text-xl font-bold flex-shrink-0 drop-shadow-sm" aria-hidden="true">
-                {getToastIcon(toast.type)}
-              </span>
-              <span className="relative z-10 flex-1 text-sm font-medium break-words drop-shadow-sm">
-                {toast.message}
-              </span>
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  hideToast(toast.id);
+      {toasts.length > 0 && (
+        <div className="fixed top-4 right-4 z-50 space-y-3 pointer-events-none">
+          <AnimatePresence mode="popLayout">
+            {toasts.map(toast => (
+              <motion.div
+                key={toast.id}
+                initial={{ opacity: 0, x: 100, scale: 0.8 }}
+                animate={{ opacity: 1, x: 0, scale: 1 }}
+                exit={{ opacity: 0, x: 100, scale: 0.8 }}
+                transition={{ 
+                  type: "spring",
+                  stiffness: 300,
+                  damping: 30,
+                  duration: 0.3 
                 }}
                 className={`
-                  relative z-10 text-xl leading-none flex-shrink-0 ml-2 w-6 h-6 
-                  flex items-center justify-center rounded-full 
-                  transition-all duration-200 drop-shadow-sm
-                  ${toast.type === 'warning' 
-                    ? 'text-gray-800/80 hover:text-gray-900 bg-gray-900/20 hover:bg-gray-900/30 border border-gray-700/30' 
-                    : 'text-white/60 hover:text-white bg-white/15 hover:bg-white/25 border border-white/20'
-                  }
+                  relative flex items-center gap-3 px-5 py-4 rounded-2xl shadow-2xl 
+                  min-w-[320px] max-w-[500px] pointer-events-auto cursor-pointer border border-white/10
+                  font-medium text-sm leading-relaxed backdrop-blur-xl backdrop-saturate-150
+                  before:absolute before:inset-0 before:rounded-2xl before:bg-gradient-to-br 
+                  before:from-white/15 before:via-white/5 before:to-transparent before:pointer-events-none
+                  after:absolute after:top-0 after:left-6 after:right-6 after:h-px 
+                  after:bg-gradient-to-r after:from-transparent after:via-white/30 after:to-transparent
+                  ${getToastStyles(toast.type)}
                 `}
-                aria-label="Close notification"
+                onClick={() => hideToast(toast.id)}
               >
-                ×
-              </button>
-            </motion.div>
-          ))}
-        </AnimatePresence>
-      </div>
+                <span className="relative z-10 text-xl font-bold flex-shrink-0 drop-shadow-sm" aria-hidden="true">
+                  {getToastIcon(toast.type)}
+                </span>
+                <span className="relative z-10 flex-1 text-sm font-medium break-words drop-shadow-sm">
+                  {toast.message}
+                </span>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    hideToast(toast.id);
+                  }}
+                  className={`
+                    relative z-10 text-xl leading-none flex-shrink-0 ml-2 w-6 h-6 
+                    flex items-center justify-center rounded-full 
+                    transition-all duration-200 drop-shadow-sm
+                    ${toast.type === 'warning' 
+                      ? 'text-gray-800/80 hover:text-gray-900 bg-gray-900/20 hover:bg-gray-900/30 border border-gray-700/30' 
+                      : 'text-white/60 hover:text-white bg-white/15 hover:bg-white/25 border border-white/20'
+                    }
+                  `}
+                  aria-label="Close notification"
+                >
+                  ×
+                </button>
+              </motion.div>
+            ))}
+          </AnimatePresence>
+        </div>
+      )}
     </ToastContext.Provider>
   );
 };

@@ -53,7 +53,7 @@ export default async function LocaleLayout({
                     <body
                         className={cn(
                             inter.className,
-                            "bg-charcoal antialiased h-full w-full"
+                            "bg-background text-foreground antialiased h-full w-full"
                         )}
                     >
                         <Navbar data={pageData.navbar} locale={locale} />

@@ -4,11 +4,12 @@ import { Locale, i18n } from '@/i18n.config'
 import "./globals.css";
 
 import { SlugProvider } from "./context/SlugContext";
+import { ThemeProvider } from "@/components/theme-provider";
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#06b6d4" },
-    { media: "(prefers-color-scheme: dark)", color: "#06b6d4" },
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+    { media: "(prefers-color-scheme: dark)", color: "#0a0a0a" },
   ],
 };
 
@@ -26,9 +27,11 @@ export default function RootLayout({
   return (
     <html lang={params.lang} suppressHydrationWarning>
       <body suppressHydrationWarning>
-        <SlugProvider>
-          {children}
-        </SlugProvider>
+        <ThemeProvider>
+          <SlugProvider>
+            {children}
+          </SlugProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

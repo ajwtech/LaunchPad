@@ -17,7 +17,7 @@ export default ({ env }) => ({
   preview: {
     enabled: true,
     config: {
-      allowedOrigins: [env("CLIENT_URL")],
+      allowedOrigins: [env("CLIENT_URL", "http://localhost:3000")],
       async handler(uid, { documentId, locale, status }) {
         const document = await strapi.documents(uid).findOne({
           documentId,
@@ -34,7 +34,7 @@ export default ({ env }) => ({
           status,
         });
 
-        const previewURL = `${env("CLIENT_URL")}/api/preview?${urlSearchParams}`;
+        const previewURL = `${env("CLIENT_URL", "http://localhost:3000")}/api/preview?${urlSearchParams}`;
 
         return previewURL;
       },

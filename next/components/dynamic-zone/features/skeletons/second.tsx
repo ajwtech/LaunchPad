@@ -102,7 +102,7 @@ export const SkeletonTwo = () => {
 
         <Cursor
           className="top-60 left-12 group-hover:left-32 group-hover:top-44"
-          textClassName="group-hover:text-white"
+          textClassName="group-hover:text-foreground"
           text="Tyler Durden"
           style={{
             opacity: 1 - sliderXPercent * 0.015,
@@ -123,7 +123,7 @@ const Cover = ({
   return (
     <span
       className={cn(
-        "border rounded-md px-1 py-0.5 mr-1 border-indigo-500 bg-indigo-500/10 text-white",
+        "border rounded-md px-1 py-0.5 mr-1 border-indigo-500 bg-indigo-500/10 text-foreground",
         className
       )}
     >
@@ -182,7 +182,7 @@ const Cursor = ({
       </svg>
       <div
         className={cn(
-          "absolute top-3 left-3 p-1 rounded-md  text-[10px] whitespace-pre text-neutral-500  transition duration-200",
+          "absolute top-3 left-3 p-1 rounded-md  text-[10px] whitespace-pre text-muted-foreground  transition duration-200",
           textClassName
         )}
       >
@@ -203,14 +203,14 @@ const Container = ({
   return (
     <div
       className={cn(
-        "p-0.5 rounded-lg border border-neutral-600 w-fit",
+        "p-0.5 rounded-lg border border-border w-fit",
         className
       )}
       {...props}
     >
       <div
         className={cn(
-          "h-10  text-xs px-2 text-neutral-400  rounded-[5px] flex items-center justify-center bg-neutral-900 shadow-[0px_0px_8px_0px_rgba(248,248,248,0.25)_inset,0px_32px_24px_-16px_rgba(0,0,0,0.40)]"
+          "h-10  text-xs px-2 text-muted-foreground  rounded-[5px] flex items-center justify-center bg-card shadow-[0px_0px_8px_0px_rgba(248,248,248,0.25)_inset,0px_32px_24px_-16px_rgba(0,0,0,0.40)]"
         )}
       >
         {children}

@@ -12,6 +12,7 @@ import { cn } from "@/lib/utils";
 import { useState } from "react";
 import { Link } from "next-view-transitions";
 import { LocaleSwitcher } from "../locale-switcher";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 type Props = {
   leftNavbarItems: {
@@ -47,7 +48,7 @@ export const DesktopNavbar = ({ leftNavbarItems, rightNavbarItems, logo, locale 
       )}
       animate={{
         width: showBackground ? "80%" : "100%",
-        background: showBackground ? "var(--neutral-900)" : "transparent",
+        background: showBackground ? "hsl(var(--card))" : "transparent",
       }}
       transition={{
         duration: 0.4,
@@ -62,7 +63,7 @@ export const DesktopNavbar = ({ leftNavbarItems, rightNavbarItems, logo, locale 
             transition={{
               duration: 1,
             }}
-            className="absolute inset-0 h-full w-full bg-neutral-900 pointer-events-none [mask-image:linear-gradient(to_bottom,white,transparent,white)] rounded-full"
+            className="absolute inset-0 h-full w-full bg-card pointer-events-none [mask-image:linear-gradient(to_bottom,white,transparent,white)] rounded-full"
           />
         )}
       </AnimatePresence>
@@ -78,6 +79,7 @@ export const DesktopNavbar = ({ leftNavbarItems, rightNavbarItems, logo, locale 
       </div>
       <div className="flex space-x-2 items-center">
         <LocaleSwitcher currentLocale={locale} />
+        <ThemeToggle />
 
         {rightNavbarItems.map((item, index) => (
           <Button key={item.text} variant={index === rightNavbarItems.length - 1 ? 'primary' : 'simple'} as={Link} href={`/${locale}${item.URL}`}>

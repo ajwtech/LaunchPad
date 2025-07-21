@@ -16,7 +16,7 @@ export const Launches = ({ heading, sub_heading, launches }: { heading: string; 
     ...entry,
     icon: <IconRocket className="h-8 w-8 text-secondary" />,
     content: (
-      <p className="text-4xl md:text-7xl font-bold text-neutral-800">
+      <p className="text-4xl md:text-7xl font-bold text-muted">
         {entry.mission_number}
       </p>
     ),
@@ -58,7 +58,7 @@ export const Launches = ({ heading, sub_heading, launches }: { heading: string; 
     >
       <div className="px-6">
         <FeatureIconContainer className="flex justify-center items-center overflow-hidden">
-          <IconRocket className="h-6 w-6 text-white" />
+          <IconRocket className="h-6 w-6 text-primary-foreground" />
         </FeatureIconContainer>
         <Heading className="mt-4">{heading}</Heading>
         <Subheading>

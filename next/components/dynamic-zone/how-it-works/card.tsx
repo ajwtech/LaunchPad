@@ -55,15 +55,15 @@ export const Card = ({
       ref={ref}
       className="grid grid-cols-1 md:grid-cols-4 max-w-4xl mx-auto py-20"
     >
-      <p className="text-9xl font-bold text-neutral-900 mt-8">{"0" + index}</p>
+      <p className="text-9xl font-bold text-muted-foreground mt-8">{"0" + index}</p>
       <motion.div
-        className="h-px w-full hidden md:block bg-gradient-to-r from-neutral-800 to-neutral-600 rounded-full mt-16 relative overflow-hidden"
+        className="h-px w-full hidden md:block bg-gradient-to-r from-border to-muted-foreground rounded-full mt-16 relative overflow-hidden"
         style={{ width }}
       >
         <Beam className="top-0" />
       </motion.div>
       <div
-        className="group p-8 rounded-md border border-neutral-800 bg-neutral-950  relative z-40 col-span-2"
+        className="group p-8 rounded-md border border-border bg-card relative z-40 col-span-2"
         onMouseMove={handleMouseMove}
       >
         <motion.div
@@ -90,7 +90,7 @@ export const Card = ({
         </motion.div>
 
         <p className="text-xl font-bold relative z-20 mt-2">{title}</p>
-        <p className="text-neutral-400 mt-4 relative z-20">{description}</p>
+        <p className="text-muted-foreground mt-4 relative z-20">{description}</p>
       </div>
     </div>
   );

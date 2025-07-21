@@ -31,11 +31,11 @@ export const SkeletonThree = () => {
       <div className="flex justify-between gap-4">
         <div className="flex flex-col gap-1">
           <span className="font-medium">6,092</span>
-          <span className="text-xs text-neutral-500">Last Month</span>
+          <span className="text-xs text-muted-foreground">Last Month</span>
         </div>
         <div className="flex flex-col gap-1">
           <span className="font-medium">72K</span>
-          <span className="text-xs text-neutral-500">Modules delivered</span>
+          <span className="text-xs text-muted-foreground">Modules delivered</span>
         </div>
       </div>
       <div className="flex flex-col gap-4 items-center justify-center h-full relative">
@@ -53,7 +53,7 @@ export const SkeletonThree = () => {
             viewBox="0 0 335 163"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
-            className="text-neutral-600"
+            className="text-muted-foreground"
           >
             <g opacity="0.75" filter="url(#graph-line)">
               <path
@@ -347,7 +347,7 @@ const Cover = ({
   return (
     <span
       className={cn(
-        "border rounded-md px-1 py-0.5 mr-1 border-indigo-500 bg-indigo-500/10 text-white",
+        "border rounded-md px-1 py-0.5 mr-1 border-indigo-500 bg-indigo-500/10 text-foreground",
         className
       )}
     >

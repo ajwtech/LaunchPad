@@ -25,7 +25,7 @@ export const Testimonials = ({ heading, sub_heading, testimonials }: { heading: 
       {testimonials && (
         <div className="relative md:py-20 pb-20">
           <TestimonialsSlider testimonials={testimonials} />
-          <div className="h-full w-full mt-20 bg-charcoal ">
+          <div className="h-full w-full mt-20 bg-background">
             <TestimonialsMarquee testimonials={testimonials} />
           </div>
         </div>

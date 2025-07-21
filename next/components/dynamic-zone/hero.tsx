@@ -27,7 +27,7 @@ export const Hero = ({ heading, sub_heading, CTAs, locale }: { heading: string; 
       >
         {heading.substring(0, heading.lastIndexOf(" "))} <Cover>{heading.split(" ").pop()}</Cover>
       </Heading>
-      <Subheading className="text-center mt-2 md:mt-6 text-base md:text-xl text-muted  max-w-3xl mx-auto relative z-10">
+      <Subheading className="text-center mt-2 md:mt-6 text-base md:text-xl text-muted-foreground max-w-3xl mx-auto relative z-10">
         {sub_heading}
       </Subheading>
       <div className="flex space-x-2 items-center mt-8">
@@ -42,7 +42,7 @@ export const Hero = ({ heading, sub_heading, CTAs, locale }: { heading: string; 
           </Button>
         ))}
       </div>
-      <div className="absolute inset-x-0 bottom-0 h-80 w-full bg-gradient-to-t from-charcoal to-transparent" />
+      <div className="absolute inset-x-0 bottom-0 h-80 w-full bg-gradient-to-t from-background to-transparent" />
     </div>
   );
 };

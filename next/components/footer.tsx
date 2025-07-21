@@ -5,8 +5,8 @@ import { Link } from "next-view-transitions";
 export const Footer = async ({ data, locale }: { data: any, locale: string }) => {
   return (
     <div className="relative">
-      <div className="border-t border-neutral-900 px-8 pt-20 pb-32 relative bg-primary">
-        <div className="max-w-7xl mx-auto text-sm text-neutral-500 flex sm:flex-row flex-col justify-between items-start ">
+      <div className="border-t border-border px-8 pt-20 pb-32 relative bg-card">
+        <div className="max-w-7xl mx-auto text-sm text-muted-foreground flex sm:flex-row flex-col justify-between items-start ">
           <div>
             <div className="mr-4  md:flex mb-4">
               {data?.logo?.image && (
@@ -17,40 +17,40 @@ export const Footer = async ({ data, locale }: { data: any, locale: string }) =>
             <div className="mt-4">{data?.copyright}</div>
             <div className="mt-10">
               Designed and Developed by{" "}
-              <a className="text-white underline" href="https://aceternity.com">
+              <a className="text-primary underline" href="https://aceternity.com">
                 Aceternity
               </a>
               {" "}&{" "}
-              <a className="text-white underline" href="https://strapi.io">
+              <a className="text-primary underline" href="https://strapi.io">
                 Strapi
               </a>
             </div>
             <div className="mt-2">
               built with{" "}
-              <a className="text-white underline" href="https://strapi.io">
+              <a className="text-primary underline" href="https://strapi.io">
                 Strapi
               </a>
               ,{" "}
-              <a className="text-white underline" href="https://nextjs.org">
+              <a className="text-primary underline" href="https://nextjs.org">
                 Next.js
               </a>
               ,{" "}
               <a
-                className="text-white underline"
+                className="text-primary underline"
                 href="https://tailwindcss.com"
               >
                 Tailwind CSS
               </a>
               ,{" "}
               <a
-                className="text-white underline"
+                className="text-primary underline"
                 href="https://framer.com/motion"
               >
                 Motion Animation Lib
               </a>
               , and{" "}
               <a
-                className="text-white underline"
+                className="text-primary underline"
                 href="https://ui.aceternity.com"
               >
                 Aceternity UI
@@ -73,7 +73,7 @@ const LinkSection = ({ links, locale }: { links: { text: string; URL: never | st
     {links.map((link) => (
       <Link
         key={link.text}
-        className="transition-colors hover:text-neutral-400 text-muted text-xs sm:text-sm"
+        className="transition-colors hover:text-foreground text-muted-foreground text-xs sm:text-sm"
         href={`${link.URL.startsWith('http') ? '' : `/${locale}`}${link.URL}`}
       >
         {link.text}

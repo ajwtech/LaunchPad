@@ -38,17 +38,27 @@ export default async function fetchContentType(
 
     const queryParams = { ...params };
 
-    if (isEnabled) {
+    // Only request draft content if we have an API token for authentication
+    if (isEnabled && process.env.STRAPI_API_TOKEN) {
       queryParams.status = "draft";
     }
 
     // Construct the full URL for the API request
     const url = new URL(`api/${contentType}`, process.env.NEXT_PUBLIC_API_URL);
 
+    // Prepare headers for authentication if needed
+    const headers: HeadersInit = {};
+    
+    // If requesting draft content, add authentication
+    if (isEnabled && process.env.STRAPI_API_TOKEN) {
+      headers['Authorization'] = `Bearer ${process.env.STRAPI_API_TOKEN}`;
+    }
+
     // Perform the fetch request with the provided query parameters
     const response = await fetch(`${url.href}?${qs.stringify(queryParams)}`, {
       method: 'GET',
       cache: 'no-store',
+      headers,
     });
 
     if (!response.ok) {

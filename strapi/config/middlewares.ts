@@ -8,6 +8,7 @@ export default [
         useDefaults: true,
         directives: {
           "connect-src": ["'self'", "https:"],
+          "frame-src": ["'self'", "http://localhost:3000", "https:"],
           "img-src": [
             "'self'",
             "data:",

@@ -91,11 +91,11 @@ export const ScrollContent = ({
           className=""
         >
           <div>{item.icon}</div>
-          <motion.h2 className="max-w-md mt-2 font-bold text-2xl lg:text-4xl inline-block bg-clip-text text-left text-transparent bg-gradient-to-b from-white  to-white">
+          <motion.h2 className="max-w-md mt-2 font-bold text-2xl lg:text-4xl inline-block bg-clip-text text-left text-transparent bg-gradient-to-b from-foreground to-foreground">
             {item.title}
           </motion.h2>
 
-          <motion.p className="text-lg text-neutral-500 font-regular max-w-sm mt-2">
+          <motion.p className="text-lg text-muted-foreground font-regular max-w-sm mt-2">
             {item.description}
           </motion.p>
         </motion.div>
@@ -133,11 +133,11 @@ export const ScrollContentMobile = ({
       <div className="w-full">
         <motion.div className=" mb-6">
           <div>{item.icon}</div>
-          <motion.h2 className="mt-2 font-bold text-2xl lg:text-4xl inline-block bg-clip-text text-left text-transparent bg-gradient-to-b from-white  to-white">
+          <motion.h2 className="mt-2 font-bold text-2xl lg:text-4xl inline-block bg-clip-text text-left text-transparent bg-gradient-to-b from-foreground to-foreground">
             {item.title}
           </motion.h2>
 
-          <motion.p className="text-sm md:text-base text-neutral-500 font-bold max-w-sm mt-2">
+          <motion.p className="text-sm md:text-base text-muted-foreground font-bold max-w-sm mt-2">
             {item.description}
           </motion.p>
         </motion.div>

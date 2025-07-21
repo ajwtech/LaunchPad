@@ -36,7 +36,7 @@ export const Pricing = ({ heading, sub_heading, plans }: { heading: string, sub_
     <div className="pt-40">
       <Container>
         <FeatureIconContainer className="flex justify-center items-center overflow-hidden">
-          <IconReceipt2 className="h-6 w-6 text-white" />
+          <IconReceipt2 className="h-6 w-6 text-primary-foreground" />
         </FeatureIconContainer>
         <Heading className="pt-4">{heading}</Heading>
         <Subheading className="max-w-3xl mx-auto">
@@ -56,27 +56,27 @@ const Card = ({ plan, onClick }: { plan: Plan; onClick: () => void }) => {
   return (
     <div
       className={cn(
-        "p-4 md:p-4 rounded-3xl bg-neutral-900 border-2 border-neutral-800",
-        plan.featured && "border-neutral-50 bg-neutral-100"
+        "p-4 md:p-4 rounded-3xl bg-card border-2 border-border",
+        plan.featured && "bg-gradient-to-b from-white to-white"
       )}
     >
       <div
         className={cn(
-          "p-4 bg-neutral-800 rounded-2xl shadow-[0px_-1px_0px_0px_var(--neutral-700)]",
-          plan.featured && "bg-white shadow-aceternity"
+          "p-4 bg-card rounded-2xl shadow-[0px_-1px_0px_0px_hsl(var(--border))]",
+          plan.featured && "bg-primary-foreground shadow-lg"
         )}
       >
         <div className="flex justify-between items-center">
-          <p className={cn("font-medium", plan.featured && "text-black")}>
+          <p className={cn("font-medium", plan.featured && "text-primary")}>
             {plan.name}
           </p>
           {plan.featured && (
             <div
               className={cn(
-                "font-medium text-xs px-3 py-1 rounded-full relative bg-neutral-900"
+                "font-medium text-xs px-3 py-1 rounded-full relative bg-accent text-accent-foreground"
               )}
             >
-              <div className="absolute inset-x-0 bottom-0 w-3/4 mx-auto h-px bg-gradient-to-r from-transparent via-indigo-500 to-transparent"></div>
+              <div className="absolute inset-x-0 bottom-0 w-3/4 mx-auto h-px bg-gradient-to-r from-transparent via-primary to-transparent"></div>
               Featured
             </div>
           )}
@@ -85,23 +85,23 @@ const Card = ({ plan, onClick }: { plan: Plan; onClick: () => void }) => {
           {plan.price && (
             <span
               className={cn(
-                "text-lg font-bold text-neutral-500",
-                plan.featured && "text-neutral-700"
+                "text-lg font-bold text-muted-foreground",
+                plan.featured && "text-primary/70"
               )}
             >
               $
             </span>
           )}
           <span
-            className={cn("text-4xl font-bold", plan.featured && "text-black")}
+            className={cn("text-4xl font-bold", plan.featured && "text-primary")}
           >
             {plan.price || plan?.CTA?.text}
           </span>
           {plan.price && (
             <span
               className={cn(
-                "text-lg font-normal text-neutral-500 ml-2",
-                plan.featured && "text-neutral-700"
+                "text-lg font-normal text-muted-foreground ml-2",
+                plan.featured && "text-primary/70"
               )}
             >
               / launch
@@ -113,7 +113,7 @@ const Card = ({ plan, onClick }: { plan: Plan; onClick: () => void }) => {
           className={cn(
             "w-full mt-10 mb-4",
             plan.featured &&
-            "bg-black text-white hover:bg-black/80 hover:text-white"
+            "bg-primary text-primary-foreground hover:bg-primary/90 hover:text-primary-foreground"
           )}
           onClick={onClick}
         >
@@ -154,16 +154,16 @@ const Step = ({
     <div className="flex items-start justify-start gap-2 my-4">
       <div
         className={cn(
-          "h-4 w-4 rounded-full bg-neutral-700 flex items-center justify-center flex-shrink-0 mt-0.5",
-          additional ? "bg-indigo-600" : "bg-neutral-700"
+          "h-4 w-4 rounded-full bg-muted flex items-center justify-center flex-shrink-0 mt-0.5",
+          additional ? "bg-primary" : "bg-muted"
         )}
       >
-        <IconCheck className="h-3 w-3 [stroke-width:4px] text-neutral-300" />
+        <IconCheck className="h-3 w-3 [stroke-width:4px] text-primary-foreground" />
       </div>
       <div
         className={cn(
-          "font-medium text-white text-sm",
-          featured && "text-black"
+          "font-medium text-foreground text-sm",
+          featured && "text-primary"
         )}
       >
         {children}
@@ -176,24 +176,24 @@ const Divider = ({ featured }: { featured?: boolean }) => {
   return (
     <div className="relative">
       <div
-        className={cn("w-full h-px bg-neutral-950", featured && "bg-white")}
+        className={cn("w-full h-px bg-border", featured && "bg-primary")}
       />
       <div
         className={cn(
-          "w-full h-px bg-neutral-800",
-          featured && "bg-neutral-200"
+          "w-full h-px bg-border",
+          featured && "bg-primary"
         )}
       />
       <div
         className={cn(
-          "absolute inset-0 h-5 w-5 m-auto rounded-xl bg-neutral-800 shadow-[0px_-1px_0px_0px_var(--neutral-700)] flex items-center justify-center",
-          featured && "bg-white shadow-aceternity"
+          "absolute inset-0 h-5 w-5 m-auto rounded-xl bg-card border border-border shadow-sm flex items-center justify-center",
+          featured && "bg-primary-foreground shadow-lg"
         )}
       >
         <IconPlus
           className={cn(
-            "h-3 w-3 [stroke-width:4px] text-neutral-300",
-            featured && "text-black"
+            "h-3 w-3 [stroke-width:4px] text-muted-foreground",
+            featured && "text-primary"
           )}
         />
       </div>

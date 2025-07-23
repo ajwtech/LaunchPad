@@ -692,16 +692,19 @@ export interface ApiPagePage extends Struct.CollectionTypeSchema {
       Schema.Attribute.Private;
     dynamic_zone: Schema.Attribute.DynamicZone<
       [
-        'dynamic-zone.hero',
-        'dynamic-zone.features',
         'dynamic-zone.testimonials',
-        'dynamic-zone.how-it-works',
-        'dynamic-zone.brands',
+        'dynamic-zone.related-products',
+        'dynamic-zone.related-articles',
         'dynamic-zone.pricing',
         'dynamic-zone.launches',
-        'dynamic-zone.cta',
+        'dynamic-zone.how-it-works',
+        'dynamic-zone.hero',
         'dynamic-zone.form-next-to-section',
+        'dynamic-zone.features',
         'dynamic-zone.faq',
+        'dynamic-zone.cta',
+        'dynamic-zone.brands',
+        'dynamic-zone.3-d-card',
       ]
     > &
       Schema.Attribute.SetPluginOptions<{

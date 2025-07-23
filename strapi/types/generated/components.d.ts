@@ -1,5 +1,20 @@
 import type { Schema, Struct } from '@strapi/strapi';
 
+export interface Cards3DCardItems extends Struct.ComponentSchema {
+  collectionName: 'components_cards_3_d_card_items';
+  info: {
+    displayName: '3D_Card_Items';
+    icon: 'stack';
+  };
+  attributes: {
+    cta_link: Schema.Attribute.String;
+    cta_text: Schema.Attribute.String;
+    description: Schema.Attribute.String;
+    image: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
+    title: Schema.Attribute.String;
+  };
+}
+
 export interface CardsGlobeCard extends Struct.ComponentSchema {
   collectionName: 'components_cards_globe_cards';
   info: {
@@ -61,6 +76,19 @@ export interface CardsSocialMediaCard extends Struct.ComponentSchema {
   };
 }
 
+export interface DynamicZone3DCard extends Struct.ComponentSchema {
+  collectionName: 'components_dynamic_zone_3_d_cards';
+  info: {
+    displayName: '3D_Card';
+    icon: 'picture';
+  };
+  attributes: {
+    card_items: Schema.Attribute.Component<'cards.3-d-card-items', true>;
+    heading: Schema.Attribute.String;
+    sub_heading: Schema.Attribute.String;
+  };
+}
+
 export interface DynamicZoneBrands extends Struct.ComponentSchema {
   collectionName: 'components_dynamic_zone_brands';
   info: {
@@ -68,11 +96,7 @@ export interface DynamicZoneBrands extends Struct.ComponentSchema {
     displayName: 'Brands';
     icon: 'bulletList';
   };
-  attributes: {
-    heading: Schema.Attribute.String;
-    logos: Schema.Attribute.Relation<'oneToMany', 'api::logo.logo'>;
-    sub_heading: Schema.Attribute.String;
-  };
+  attributes: {};
 }
 
 export interface DynamicZoneCta extends Struct.ComponentSchema {
@@ -508,10 +532,12 @@ export interface SharedUser extends Struct.ComponentSchema {
 declare module '@strapi/strapi' {
   export module Public {
     export interface ComponentSchemas {
+      'cards.3-d-card-items': Cards3DCardItems;
       'cards.globe-card': CardsGlobeCard;
       'cards.graph-card': CardsGraphCard;
       'cards.ray-card': CardsRayCard;
       'cards.social-media-card': CardsSocialMediaCard;
+      'dynamic-zone.3-d-card': DynamicZone3DCard;
       'dynamic-zone.brands': DynamicZoneBrands;
       'dynamic-zone.cta': DynamicZoneCta;
       'dynamic-zone.faq': DynamicZoneFaq;

@@ -1,8 +1,14 @@
 "use client";
 import React from "react";
 import Link from "next/link";
-import ShootingStars from "../decorations/shooting-star";
-import StarBackground from "../decorations/star-background";
+import dynamic from 'next/dynamic';
+import { sceneConfigurations } from '@/components/decorations/architectural-elements/scenes';
+
+// Import ArchitecturalCAD dynamically with SSR disabled to prevent hydration issues
+const ArchitecturalCAD = dynamic(
+  () => import('@/components/decorations/architectural-cad'),
+  { ssr: false }
+);
 
 import { Heading } from "../elements/heading";
 import { Subheading } from "../elements/subheading";
@@ -16,21 +22,21 @@ export const Hero = ({ heading, sub_heading, CTAs, locale }: { heading: string; 
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ duration: 0.5, delay: 0.5 }}
+        transition={{ duration: 1.8, delay: 0.5 }}
+        className="absolute inset-0 z-0"
       >
-        <StarBackground />
-        <ShootingStars />
+        <ArchitecturalCAD {...sceneConfigurations.heroSection} />
       </motion.div>
       <Heading
         as="h1"
-        className="text-4xl md:text-4xl lg:text-8xl font-semibold max-w-7xl mx-auto text-center mt-6 relative z-10 py-4"
+        className="text-4xl md:text-4xl lg:text-8xl font-semibold max-w-7xl mx-auto text-center mt-6 relative z-20 py-4"
       >
         {heading.substring(0, heading.lastIndexOf(" "))} <Cover>{heading.split(" ").pop()}</Cover>
       </Heading>
-      <Subheading className="text-center mt-2 md:mt-6 text-base md:text-xl text-muted-foreground max-w-3xl mx-auto relative z-10">
+      <Subheading className="text-center mt-2 md:mt-6 text-base md:text-xl text-muted-foreground max-w-3xl mx-auto relative z-20">
         {sub_heading}
       </Subheading>
-      <div className="flex space-x-2 items-center mt-8">
+      <div className="flex space-x-2 items-center mt-8 relative z-20">
         {CTAs && CTAs.map((cta) => (
           <Button
             key={cta?.id}

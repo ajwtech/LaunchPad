@@ -20,12 +20,16 @@
     "transfer": "cd strapi && ts-node transfer.ts"
   },
   "dependencies": {
+    "@react-three/drei": "^10.5.2",
+    "@react-three/fiber": "^9.2.0",
     "@types/node": "^22.5.2",
     "concurrently": "^8.2.2",
+    "three": "^0.178.0",
     "typescript": "^5.0.0",
     "wait-on": "^8.0.1"
   },
   "devDependencies": {
+    "@types/three": "^0",
     "ts-node": "^10.9.2"
   },
   "packageManager": "yarn@4.9.2"

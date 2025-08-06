@@ -14,10 +14,43 @@
       "type": "string"
     },
     "CTAs": {
-      "displayName": "Button",
       "type": "component",
-      "repeatable": true,
-      "component": "shared.button"
+      "component": "shared.button",
+      "repeatable": true
+    },
+    "background_video": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "videos"
+      ]
+    },
+    "overlay_enabled": {
+      "type": "boolean",
+      "default": false
+    },
+    "overlay_opacity": {
+      "type": "decimal",
+      "min": 0,
+      "max": 1,
+      "default": 0.5
+    },
+    "overlay_color": {
+      "type": "string",
+      "default": "#000000"
+    },
+    "video_autoplay": {
+      "type": "boolean",
+      "default": true
+    },
+    "video_muted": {
+      "type": "boolean",
+      "default": true
+    },
+    "video_loop": {
+      "type": "boolean",
+      "default": false
     }
   }
 }

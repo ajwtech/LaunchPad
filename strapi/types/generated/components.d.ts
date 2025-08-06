@@ -8,10 +8,11 @@ export interface Cards3DCardItems extends Struct.ComponentSchema {
   };
   attributes: {
     cta_link: Schema.Attribute.String;
-    cta_text: Schema.Attribute.String;
-    description: Schema.Attribute.String;
+    cta_text: Schema.Attribute.RichText;
+    description: Schema.Attribute.RichText;
     image: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
-    title: Schema.Attribute.String;
+    secondary_cta_text: Schema.Attribute.RichText;
+    title: Schema.Attribute.RichText;
   };
 }
 
@@ -84,8 +85,8 @@ export interface DynamicZone3DCard extends Struct.ComponentSchema {
   };
   attributes: {
     card_items: Schema.Attribute.Component<'cards.3-d-card-items', true>;
-    heading: Schema.Attribute.String;
-    sub_heading: Schema.Attribute.String;
+    heading: Schema.Attribute.RichText;
+    sub_heading: Schema.Attribute.RichText;
   };
 }
 
@@ -173,9 +174,26 @@ export interface DynamicZoneHero extends Struct.ComponentSchema {
     icon: 'layout';
   };
   attributes: {
+    background_video: Schema.Attribute.Media<'videos'>;
     CTAs: Schema.Attribute.Component<'shared.button', true>;
     heading: Schema.Attribute.String;
+    overlay_color: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'#000000'>;
+    overlay_enabled: Schema.Attribute.Boolean &
+      Schema.Attribute.DefaultTo<false>;
+    overlay_opacity: Schema.Attribute.Decimal &
+      Schema.Attribute.SetMinMax<
+        {
+          max: 1;
+          min: 0;
+        },
+        number
+      > &
+      Schema.Attribute.DefaultTo<0.5>;
     sub_heading: Schema.Attribute.String;
+    video_autoplay: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<true>;
+    video_loop: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    video_muted: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<true>;
   };
 }
 

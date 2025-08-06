@@ -14,23 +14,20 @@ export default [
             "data:",
             "blob:",
             "https://market-assets.strapi.io",
-            /**
-             * Note: If using a STORAGE_URL replace `https://${process.env.STORAGE_ACCOUNT}.blob.core.windows.net` w/ process.env.STORAGE_URL
-             * If using a CDN URL make sure to include that url in the CSP headers process.env.STORAGE_CDN_URL
-             */
-            `https://${process.env.STORAGE_ACCOUNT_NAME}.blob.core.windows.net`,
+            // Production Azure Storage (for direct CDN access if configured)
+            ...(process.env.STORAGE_URL ? [process.env.STORAGE_URL] : []),
+            ...(process.env.STORAGE_ACCOUNT_NAME && !process.env.STORAGE_URL ? [`https://${process.env.STORAGE_ACCOUNT_NAME}.blob.core.windows.net`] : []),
+            "http://localhost:10000", // Azurite for local development
           ],
           "media-src": [
             "'self'",
             "data:",
             "blob:",
             "https://market-assets.strapi.io",
-            /**
-             * Note: If using a STORAGE_URL replace `https://${process.env.STORAGE_ACCOUNT}.blob.core.windows.net` w/ process.env.STORAGE_URL
-             * If using a CDN URL make sure to include that url in the CSP headers process.env.STORAGE_CDN_URL
-             */
-            `https://${process.env.STORAGE_ACCOUNT_NAME}.blob.core.windows.net`,
-
+            // Production Azure Storage (for direct CDN access if configured)
+            ...(process.env.STORAGE_URL ? [process.env.STORAGE_URL] : []),
+            ...(process.env.STORAGE_ACCOUNT_NAME && !process.env.STORAGE_URL ? [`https://${process.env.STORAGE_ACCOUNT_NAME}.blob.core.windows.net`] : []),
+            "http://localhost:10000", // Azurite for local development
           ],
           upgradeInsecureRequests: null,
         },

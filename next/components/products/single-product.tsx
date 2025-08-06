@@ -103,7 +103,12 @@ export const SingleProduct = ({ product }: { product: Product }) => {
               </li>
             ))}
           </ul>
-          <AddToCartModal onClick={() => addToCart(product)} />
+          <button 
+            className="mt-10 w-full"
+            onClick={() => addToCart(product)}
+          >
+            Add to cart
+          </button>
         </div>
       </div>
     </div>

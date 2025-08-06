@@ -3,6 +3,7 @@
  * Any modifications made will be discarded.
  */
 import ckeditor5 from "@_sh/strapi-plugin-ckeditor/strapi-admin";
+import colorPicker from "@strapi/plugin-color-picker/strapi-admin";
 import documentation from "@strapi/plugin-documentation/strapi-admin";
 import seo from "@strapi/plugin-seo/strapi-admin";
 import usersPermissions from "@strapi/plugin-users-permissions/strapi-admin";
@@ -12,6 +13,7 @@ renderAdmin(document.getElementById("strapi"), {
   features: {},
   plugins: {
     ckeditor5: ckeditor5,
+    "color-picker": colorPicker,
     documentation: documentation,
     seo: seo,
     "users-permissions": usersPermissions,

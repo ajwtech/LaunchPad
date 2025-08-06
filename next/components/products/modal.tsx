@@ -13,12 +13,18 @@ import { formatNumber } from "@/lib/utils";
 import { IconTrash } from "@tabler/icons-react";
 import { strapiImage } from "@/lib/strapi/strapiImage";
 
-export default function AddToCartModal({ onClick }: { onClick: () => void }) {
+export default function AddToCartModal({ 
+  triggerText = "Add to cart",
+  triggerClassName = "mt-10 w-full"
+}: { 
+  triggerText?: string;
+  triggerClassName?: string;
+}) {
   const { items, updateQuantity, getCartTotal, removeFromCart } = useCart();
   return (
     <Modal>
-      <ModalTrigger onClick={onClick} className="mt-10 w-full">
-        Add to cart
+      <ModalTrigger className={triggerClassName}>
+        {triggerText}
       </ModalTrigger>
       <ModalBody>
         <ModalContent>

@@ -13,6 +13,7 @@
     "start": "strapi start"
   },
   "devDependencies": {
+    "@strapi/types": "5.21.0",
     "@types/lodash": "^4",
     "@types/node": "^22.15.17",
     "@types/react": "^18",
@@ -25,12 +26,13 @@
   },
   "dependencies": {
     "@_sh/strapi-plugin-ckeditor": "^6.0.2",
-    "@strapi/plugin-documentation": "^5.18.1",
+    "@strapi/plugin-color-picker": "^5.21.0",
+    "@strapi/plugin-documentation": "^5.21.0",
     "@strapi/plugin-seo": "^2.0.8",
-    "@strapi/plugin-users-permissions": "^5.18.1",
-    "@strapi/strapi": "5.18.1",
+    "@strapi/plugin-users-permissions": "^5.21.0",
+    "@strapi/strapi": "5.21.0",
     "lodash": "^4.17.21",
-    "mysql2": "^3.14.1",
+    "mysql2": "^3.14.3",
     "patch-package": "^8.0.0",
     "pluralize": "^8.0.0",
     "react": "^18.0.0",

@@ -7,10 +7,10 @@
   "options": {},
   "attributes": {
     "title": {
-      "type": "string"
+      "type": "richtext"
     },
     "description": {
-      "type": "string"
+      "type": "richtext"
     },
     "image": {
       "type": "media",
@@ -23,10 +23,13 @@
       ]
     },
     "cta_text": {
-      "type": "string"
+      "type": "richtext"
     },
     "cta_link": {
       "type": "string"
+    },
+    "secondary_cta_text": {
+      "type": "richtext"
     }
   },
   "config": {}

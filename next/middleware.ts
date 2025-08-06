@@ -14,12 +14,11 @@ function getLocale(request: NextRequest): string | undefined {
   const locales: string[] = i18n.locales
   const languages = new Negotiator({ headers: negotiatorHeaders }).languages()
 
-  const locale = matchLocale(languages, locales, i18n.defaultLocale)
-  return locale
+  return matchLocale(languages, locales, i18n.defaultLocale)
 }
 
 export function middleware(request: NextRequest) {
-  const pathname = request.nextUrl.pathname
+  const { pathname } = request.nextUrl
   const pathnameIsMissingLocale = i18n.locales.every(
     locale => !pathname.startsWith(`/${locale}/`) && pathname !== `/${locale}`
   )

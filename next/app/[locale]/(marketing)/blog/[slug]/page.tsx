@@ -2,7 +2,6 @@ import React from "react";
 
 import { BlogLayout } from "@/components/blog-layout";
 import fetchContentType from "@/lib/strapi/fetchContentType";
-import { BlocksRenderer } from "@strapi/blocks-react-renderer";
 
 import ClientSlugHandler from "../../ClientSlugHandler";
 
@@ -37,7 +36,9 @@ export default async function SingleArticlePage({
   return (
     <BlogLayout article={article} locale={params.locale}>
       <ClientSlugHandler localizedSlugs={localizedSlugs} />
-      <BlocksRenderer content={article.content} />
+      {article.content && article.content.trim() && (
+        <div dangerouslySetInnerHTML={{ __html: article.content }} />
+      )}
     </BlogLayout>
   );
 }

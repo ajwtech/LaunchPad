@@ -11,7 +11,7 @@
     "setup:next": "cd next && yarn && node --loader ts-node/esm ../scripts/copy-env.mts ./",
     "setup:strapi": "cd strapi && yarn && node --loader ts-node/esm ../scripts/copy-env.mts ./",
     "setup": "yarn install && yarn setup:next && yarn setup:strapi",
-    "dev": "yarn concurrently \"cd strapi && yarn develop:ssh\" \"npx wait-on http://localhost:1337 && cd next && yarn dev\"",
+    "dev": "yarn concurrently \"cd strapi && yarn develop:ssh \" \"npx wait-on http://localhost:1337 && cd next && yarn dev\"",
     "seed": "cd strapi && yarn strapi import -f ./data/export_20250116105447.tar.gz --force",
     "export": "cd strapi && yarn strapi export --no-encrypt -f ./data/export_20250116105447",
     "repo:upstream": "git fetch upstream && git merge upstream/main",
@@ -20,16 +20,12 @@
     "transfer": "cd strapi && ts-node transfer.ts"
   },
   "dependencies": {
-    "@react-three/drei": "^10.5.2",
-    "@react-three/fiber": "^9.2.0",
     "@types/node": "^22.5.2",
     "concurrently": "^8.2.2",
-    "three": "^0.178.0",
     "typescript": "^5.0.0",
     "wait-on": "^8.0.1"
   },
   "devDependencies": {
-    "@types/three": "^0",
     "ts-node": "^10.9.2"
   },
   "packageManager": "yarn@4.9.2"

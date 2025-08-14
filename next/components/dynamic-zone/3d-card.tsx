@@ -100,35 +100,37 @@ const ThreeDCardItem = ({
             />
           </CardItem>
         )}
-        {cta_text && cta_link && (
-          <div className="flex justify-between items-center mt-6 flex-shrink-0">
-            <CardItem
-              translateZ={20}
-              as="a"
-              href={cta_link}
-              target="_blank"
-              className="px-4 py-2 rounded-xl text-xs font-normal text-foreground"
-            >
-              {secondary_cta_text && secondary_cta_text.trim() ? (
-                <div dangerouslySetInnerHTML={{ __html: secondary_cta_text }} />
-              ) : (
-                "Try now →"
-              )}
-            </CardItem>
-            <CardItem
-              translateZ={20}
-              as="a"
-              href={cta_link}
-              className="px-4 py-2 rounded-xl bg-primary text-primary-foreground text-xs font-bold"
-            >
-              {cta_text && cta_text.trim() ? (
-                <div dangerouslySetInnerHTML={{ __html: cta_text }} />
-              ) : (
-                "Learn More"
-              )}
-            </CardItem>
-          </div>
-        )}
+        <div className="flex justify-between items-center mt-6 flex-shrink-0 min-h-[2.5rem]">
+          {cta_text && cta_link ? (
+            <>
+              <CardItem
+                translateZ={20}
+                as="a"
+                href={cta_link}
+                target="_blank"
+                className="px-4 py-2 rounded-xl text-xs font-normal text-foreground"
+              >
+                {secondary_cta_text && secondary_cta_text.trim() ? (
+                  <div dangerouslySetInnerHTML={{ __html: secondary_cta_text }} />
+                ) : (
+                  ""
+                )}
+              </CardItem>
+              <CardItem
+                translateZ={20}
+                as="a"
+                href={cta_link}
+                className="px-4 py-2 rounded-xl bg-primary text-primary-foreground text-xs font-bold"
+              >
+                {cta_text && cta_text.trim() ? (
+                  <div dangerouslySetInnerHTML={{ __html: cta_text }} />
+                ) : (
+                  "Learn More"
+                )}
+              </CardItem>
+            </>
+          ) : null}
+        </div>
       </CardBody>
     </CardContainer>
   );

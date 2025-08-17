@@ -7,7 +7,8 @@ export default [
       contentSecurityPolicy: {
         useDefaults: true,
         directives: {
-          "connect-src": ["'self'", "https:"],
+          "script-src": ["'self'", "'unsafe-inline'"],
+          "connect-src": ["'self'", "https:", "http:", 'ws:'],
           "frame-src": ["'self'", "http://localhost:3000", "https:"],
           "img-src": [
             "'self'",

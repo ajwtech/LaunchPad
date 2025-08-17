@@ -12,8 +12,8 @@ import {
 let tunnelServer: any = null;
 let reconnectAttempts = 0;
 const MAX_RECONNECT_ATTEMPTS = 5;
-const RECONNECT_DELAY = 5000; // 5 seconds
-const CONNECTION_TIMEOUT = 30000; // 30 seconds
+const RECONNECT_DELAY = 2000; // 2 seconds
+const CONNECTION_TIMEOUT = 60000; // 30 seconds
 
 export default function openSshTunnel(): Promise<void> {
   if (process.env.USE_SSH_TUNNEL !== 'true') {
@@ -85,7 +85,7 @@ function establishTunnel(): Promise<void> {
     password: process.env.SSH_TUNNEL_PASSWORD,
     readyTimeout: CONNECTION_TIMEOUT,
     keepaliveInterval: 10000, // Send keepalive every 10 seconds
-    keepaliveCountMax: 3,     // Allow 3 missed keepalive responses
+    keepaliveCountMax: 5,     // Allow 5 missed keepalive responses
     // –or–
     // privateKey: readFileSync(process.env.SSH_TUNNEL_PRIVATE_KEY_PATH!), // if this is uncommented then you must import fs
     // by adding `import { readFileSync } from 'fs';` to the top of this file
@@ -137,8 +137,8 @@ function establishTunnel(): Promise<void> {
             createTunnelWithRetry();
           }
         }
-      }, 30000); // Check every 30 seconds
-      
+      }, 40000); // Check every 40 seconds
+
       return Promise.resolve();
     })
     .catch(err => {

@@ -26,15 +26,15 @@ export default ({ env }) => {
         },
         enableKeepAlive: true,
         keepAliveInitialDelay: 0,
-        connectTimeout: env.int('DATABASE_CONNECT_TIMEOUT', 10000), // 10 seconds
+        connectTimeout: env.int('DATABASE_CONNECT_TIMEOUT', 30000), // 30 seconds
         charset: 'utf8mb4',
       },
       pool: { 
         min: env.int('DATABASE_POOL_MIN', 2),
         max: env.int('DATABASE_POOL_MAX', 10),
-        idleTimeoutMillis: env.int('DATABASE_IDLE_TIMEOUT', 30000), // 30 seconds (reduced from 5 minutes)
-        acquireTimeoutMillis: env.int('DATABASE_CONNECTION_TIMEOUT', 10000), // 10 seconds (reduced from 60 seconds)
-        createTimeoutMillis: env.int('DATABASE_CREATE_TIMEOUT', 10000), // 10 seconds
+        idleTimeoutMillis: env.int('DATABASE_IDLE_TIMEOUT', 60000), // 60 seconds
+        acquireTimeoutMillis: env.int('DATABASE_CONNECTION_TIMEOUT', 60000), // 60 seconds
+        createTimeoutMillis: env.int('DATABASE_CREATE_TIMEOUT', 60000), // 60 seconds
         destroyTimeoutMillis: env.int('DATABASE_DESTROY_TIMEOUT', 5000), // 5 seconds
         // verify each new socket before use
         afterCreate: (conn, done) => {
@@ -91,7 +91,7 @@ export default ({ env }) => {
     connection: {
       client,
       ...connections[client],
-      acquireConnectionTimeout: env.int('DATABASE_CONNECTION_TIMEOUT', 10000), // Reduced from 60 seconds to 10 seconds
+      acquireConnectionTimeout: env.int('DATABASE_CONNECTION_TIMEOUT', 60000), // Reduced from 60 seconds to 10 seconds
     },
     // Add debugging for connection issues
     debug: env.bool('DATABASE_DEBUG', false),

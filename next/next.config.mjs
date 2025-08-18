@@ -1,7 +1,30 @@
 /** @type {import('next').NextConfig} */
+
+// Extract hostname from STORAGE_URL if it's a full URL
+function getStorageHostname() {
+  const storageUrl = process.env.STORAGE_URL;
+  if (!storageUrl) {
+    return "localhost";
+  }
+  
+  try {
+    // If it's a full URL, extract hostname
+    if (storageUrl.startsWith('http://') || storageUrl.startsWith('https://')) {
+      return new URL(storageUrl).hostname;
+    }
+    // If it's just a hostname, return as-is
+    return storageUrl;
+  } catch {
+    return "localhost";
+  }
+}
+
 const nextConfig = {
   images: {
-    remotePatterns: [{ hostname: process.env.STORAGE_URL || "localhost" }],
+    remotePatterns: [
+      { hostname: getStorageHostname() },
+      { hostname: "localhost" }, // For local development with Azurite
+    ],
   },
   pageExtensions: ["ts", "tsx"],
   async redirects() {

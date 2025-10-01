@@ -1,4 +1,5 @@
 import { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 import PageContent from '@/lib/shared/PageContent';
 import fetchContentType from '@/lib/strapi/fetchContentType';
 import { generateMetadataObject } from '@/lib/shared/metadata';
@@ -22,8 +23,7 @@ export async function generateMetadata({
   );
 
   const seo = pageData?.seo;
-  const metadata = generateMetadataObject(seo);
-  return metadata;
+  return generateMetadataObject(seo);
 }
 
 export default async function Page({ params }: { params: { locale: string, slug: string } }) {
@@ -37,6 +37,11 @@ export default async function Page({ params }: { params: { locale: string, slug:
     },
     true,
   );
+
+  // Handle case where page is not found
+  if (!pageData) {
+    notFound();
+  }
 
   const localizedSlugs = pageData.localizations?.reduce(
     (acc: Record<string, string>, localization: any) => {

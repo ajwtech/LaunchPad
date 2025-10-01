@@ -46,8 +46,7 @@ export const Hero = ({
   video_loop = false
 }: HeroProps) => {
   return (
-    <div className="h-[5
-    0vh] overflow-hidden relative flex flex-col items-center justify-center">
+    <div className="h-[50vh] overflow-hidden relative flex flex-col items-center justify-center pt-24 md:pt-32">
       {/* Video background or gradient fallback */}
       <motion.div
         initial={{ opacity: 0 }}

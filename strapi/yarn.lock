@@ -26,17 +26,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ajwtech/strapi-plugin-llm-agent@file:../plugins/strapi-plugin-llm-agent::locator=strapi-app%40workspace%3A.":
-  version: 0.1.0
-  resolution: "@ajwtech/strapi-plugin-llm-agent@file:../plugins/strapi-plugin-llm-agent#../plugins/strapi-plugin-llm-agent::hash=0d5a6b&locator=strapi-app%40workspace%3A."
-  dependencies:
-    lodash: "npm:^4.17.21"
-  peerDependencies:
-    "@strapi/strapi": ^5.0.0
-  checksum: 10c0/31040306731ab23fd7ace90d17f815508c9ea0930dab9dec07e82817b91b4e7524aefeed1c1324c7696bb2beb4761cb7e0906aac578517717e5dcc8a6caeba56
-  languageName: node
-  linkType: hard
-
 "@azure/abort-controller@npm:^2.0.0, @azure/abort-controller@npm:^2.1.2":
   version: 2.1.2
   resolution: "@azure/abort-controller@npm:2.1.2"
@@ -15258,7 +15247,6 @@ __metadata:
   resolution: "strapi-app@workspace:."
   dependencies:
     "@_sh/strapi-plugin-ckeditor": "npm:^6.0.2"
-    "@ajwtech/strapi-plugin-llm-agent": "file:../plugins/strapi-plugin-llm-agent"
     "@strapi/plugin-color-picker": "npm:^5.22.0"
     "@strapi/plugin-documentation": "npm:^5.22.0"
     "@strapi/plugin-seo": "npm:^2.0.8"
@@ -15269,6 +15257,7 @@ __metadata:
     "@types/node": "npm:^22.15.17"
     "@types/react": "npm:^18"
     "@types/react-dom": "npm:^18"
+    date-fns: "npm:^4.1.0"
     dotenv: "npm:^16.5.0"
     esbuild: "npm:^0.25.10"
     lodash: "npm:^4.17.21"

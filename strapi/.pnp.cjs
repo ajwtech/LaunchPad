@@ -29,7 +29,6 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./",\
         "packageDependencies": [\
           ["@_sh/strapi-plugin-ckeditor", "virtual:2e9667b76d5db7161573f985a17e1fdd8c80ceda7a3fb8b3b93ba36895918b299ccbdf981561a5e0540aa1c69d6e49cb1f238a1e9597488be11a3b991bdf69bf#npm:6.0.3"],\
-          ["@ajwtech/strapi-plugin-llm-agent", "virtual:2e9667b76d5db7161573f985a17e1fdd8c80ceda7a3fb8b3b93ba36895918b299ccbdf981561a5e0540aa1c69d6e49cb1f238a1e9597488be11a3b991bdf69bf#file:../plugins/strapi-plugin-llm-agent#../plugins/strapi-plugin-llm-agent::hash=0d5a6b&locator=strapi-app%40workspace%3A."],\
           ["@strapi/plugin-color-picker", "virtual:2e9667b76d5db7161573f985a17e1fdd8c80ceda7a3fb8b3b93ba36895918b299ccbdf981561a5e0540aa1c69d6e49cb1f238a1e9597488be11a3b991bdf69bf#npm:5.25.0"],\
           ["@strapi/plugin-documentation", "virtual:2e9667b76d5db7161573f985a17e1fdd8c80ceda7a3fb8b3b93ba36895918b299ccbdf981561a5e0540aa1c69d6e49cb1f238a1e9597488be11a3b991bdf69bf#npm:5.25.0"],\
           ["@strapi/plugin-seo", "virtual:2e9667b76d5db7161573f985a17e1fdd8c80ceda7a3fb8b3b93ba36895918b299ccbdf981561a5e0540aa1c69d6e49cb1f238a1e9597488be11a3b991bdf69bf#npm:2.0.8"],\
@@ -40,6 +39,7 @@ const RAW_RUNTIME_STATE =
           ["@types/node", "npm:22.18.8"],\
           ["@types/react", "npm:18.3.25"],\
           ["@types/react-dom", "virtual:2e9667b76d5db7161573f985a17e1fdd8c80ceda7a3fb8b3b93ba36895918b299ccbdf981561a5e0540aa1c69d6e49cb1f238a1e9597488be11a3b991bdf69bf#npm:18.3.7"],\
+          ["date-fns", "npm:4.1.0"],\
           ["dotenv", "npm:16.6.1"],\
           ["esbuild", "npm:0.25.10"],\
           ["lodash", "npm:4.17.21"],\
@@ -103,29 +103,6 @@ const RAW_RUNTIME_STATE =
           "react-router-dom",\
           "react",\
           "styled-components"\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["@ajwtech/strapi-plugin-llm-agent", [\
-      ["file:../plugins/strapi-plugin-llm-agent#../plugins/strapi-plugin-llm-agent::hash=0d5a6b&locator=strapi-app%40workspace%3A.", {\
-        "packageLocation": "../../../../.yarn/berry/cache/@ajwtech-strapi-plugin-llm-agent-file-f1fcc6b483-10c0.zip/node_modules/@ajwtech/strapi-plugin-llm-agent/",\
-        "packageDependencies": [\
-          ["@ajwtech/strapi-plugin-llm-agent", "file:../plugins/strapi-plugin-llm-agent#../plugins/strapi-plugin-llm-agent::hash=0d5a6b&locator=strapi-app%40workspace%3A."]\
-        ],\
-        "linkType": "SOFT"\
-      }],\
-      ["virtual:2e9667b76d5db7161573f985a17e1fdd8c80ceda7a3fb8b3b93ba36895918b299ccbdf981561a5e0540aa1c69d6e49cb1f238a1e9597488be11a3b991bdf69bf#file:../plugins/strapi-plugin-llm-agent#../plugins/strapi-plugin-llm-agent::hash=0d5a6b&locator=strapi-app%40workspace%3A.", {\
-        "packageLocation": "./.yarn/__virtual__/@ajwtech-strapi-plugin-llm-agent-virtual-0de225a671/5/.yarn/berry/cache/@ajwtech-strapi-plugin-llm-agent-file-f1fcc6b483-10c0.zip/node_modules/@ajwtech/strapi-plugin-llm-agent/",\
-        "packageDependencies": [\
-          ["@ajwtech/strapi-plugin-llm-agent", "virtual:2e9667b76d5db7161573f985a17e1fdd8c80ceda7a3fb8b3b93ba36895918b299ccbdf981561a5e0540aa1c69d6e49cb1f238a1e9597488be11a3b991bdf69bf#file:../plugins/strapi-plugin-llm-agent#../plugins/strapi-plugin-llm-agent::hash=0d5a6b&locator=strapi-app%40workspace%3A."],\
-          ["@strapi/strapi", "virtual:2e9667b76d5db7161573f985a17e1fdd8c80ceda7a3fb8b3b93ba36895918b299ccbdf981561a5e0540aa1c69d6e49cb1f238a1e9597488be11a3b991bdf69bf#npm:5.22.0"],\
-          ["@types/strapi__strapi", null],\
-          ["lodash", "npm:4.17.21"]\
-        ],\
-        "packagePeers": [\
-          "@strapi/strapi",\
-          "@types/strapi__strapi"\
         ],\
         "linkType": "HARD"\
       }]\
@@ -20792,7 +20769,6 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./",\
         "packageDependencies": [\
           ["@_sh/strapi-plugin-ckeditor", "virtual:2e9667b76d5db7161573f985a17e1fdd8c80ceda7a3fb8b3b93ba36895918b299ccbdf981561a5e0540aa1c69d6e49cb1f238a1e9597488be11a3b991bdf69bf#npm:6.0.3"],\
-          ["@ajwtech/strapi-plugin-llm-agent", "virtual:2e9667b76d5db7161573f985a17e1fdd8c80ceda7a3fb8b3b93ba36895918b299ccbdf981561a5e0540aa1c69d6e49cb1f238a1e9597488be11a3b991bdf69bf#file:../plugins/strapi-plugin-llm-agent#../plugins/strapi-plugin-llm-agent::hash=0d5a6b&locator=strapi-app%40workspace%3A."],\
           ["@strapi/plugin-color-picker", "virtual:2e9667b76d5db7161573f985a17e1fdd8c80ceda7a3fb8b3b93ba36895918b299ccbdf981561a5e0540aa1c69d6e49cb1f238a1e9597488be11a3b991bdf69bf#npm:5.25.0"],\
           ["@strapi/plugin-documentation", "virtual:2e9667b76d5db7161573f985a17e1fdd8c80ceda7a3fb8b3b93ba36895918b299ccbdf981561a5e0540aa1c69d6e49cb1f238a1e9597488be11a3b991bdf69bf#npm:5.25.0"],\
           ["@strapi/plugin-seo", "virtual:2e9667b76d5db7161573f985a17e1fdd8c80ceda7a3fb8b3b93ba36895918b299ccbdf981561a5e0540aa1c69d6e49cb1f238a1e9597488be11a3b991bdf69bf#npm:2.0.8"],\
@@ -20803,6 +20779,7 @@ const RAW_RUNTIME_STATE =
           ["@types/node", "npm:22.18.8"],\
           ["@types/react", "npm:18.3.25"],\
           ["@types/react-dom", "virtual:2e9667b76d5db7161573f985a17e1fdd8c80ceda7a3fb8b3b93ba36895918b299ccbdf981561a5e0540aa1c69d6e49cb1f238a1e9597488be11a3b991bdf69bf#npm:18.3.7"],\
+          ["date-fns", "npm:4.1.0"],\
           ["dotenv", "npm:16.6.1"],\
           ["esbuild", "npm:0.25.10"],\
           ["lodash", "npm:4.17.21"],\

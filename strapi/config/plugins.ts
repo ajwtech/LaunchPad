@@ -1,4 +1,7 @@
 export default () => ({
+  // 'llm-agent': {
+  //   enabled: true,
+  // },
   upload: {
     config: {
       provider: 'strapi-provider-upload-azure-storage',

@@ -1,0 +1,53 @@
+{
+  "name": "@ajwtech/strapi-plugin-llm-agent",
+  "version": "0.1.0",
+  "description": "Strapi 5 plugin for AI-powered content generation and SEO optimization",
+  "license": "MIT",
+  "main": "strapi-server.js",
+  "strapi": {
+    "name": "llm-agent",
+    "displayName": "LLM Agent",
+    "description": "AI-powered content generation and SEO optimization for Strapi"
+  },
+  "peerDependencies": {
+    "@strapi/strapi": "^5.0.0"
+  },
+  "dependencies": {
+    "lodash": "^4.17.21"
+  },
+  "devDependencies": {
+    "@types/lodash": "^4",
+    "@types/node": "^22",
+    "typescript": "^5"
+  },
+  "scripts": {
+    "build": "node scripts/build.js || echo 'TODO: add build'",
+    "build:watch": "npm run build -- --watch",
+    "lint": "eslint .",
+    "typecheck": "tsc -p tsconfig.json || true"
+  },
+  "keywords": [
+    "strapi",
+    "plugin",
+    "ai",
+    "llm",
+    "content-generation",
+    "seo",
+    "openai",
+    "anthropic",
+    "bedrock",
+    "github-models",
+    "xai"
+  ],
+  "author": {
+    "name": "AJW Tech",
+    "url": "https://github.com/ajwtech"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ajwtech/strapi-plugin-llm-agent"
+  },
+  "engines": {
+    "node": ">=18.0.0 <=22.x.x"
+  }
+}

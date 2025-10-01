@@ -11,7 +11,7 @@ module.exports = [
     path: '/generate-draft',
     handler: 'llm.generateDraft',
     config: {
-      policies: [],
+      policies: ['plugin::llm-agent.rate-limit', 'plugin::llm-agent.validate-content-type'],
       auth: {
         scope: ['admin::is-authenticated']
       }
@@ -22,7 +22,7 @@ module.exports = [
     path: '/seo-optimize',
     handler: 'llm.seoOptimize',
     config: {
-      policies: [],
+      policies: ['plugin::llm-agent.rate-limit', 'plugin::llm-agent.validate-content-type'],
       auth: {
         scope: ['admin::is-authenticated']
       }
@@ -33,7 +33,7 @@ module.exports = [
     path: '/insert-suggestions',
     handler: 'llm.insertSuggestions',
     config: {
-      policies: [],
+      policies: ['plugin::llm-agent.rate-limit', 'plugin::llm-agent.validate-content-type'],
       auth: {
         scope: ['admin::is-authenticated']
       }
@@ -44,7 +44,7 @@ module.exports = [
     path: '/providers',
     handler: 'llm.getProviders',
     config: {
-      policies: [],
+      policies: ['plugin::llm-agent.rate-limit'],
       auth: {
         scope: ['admin::is-authenticated']
       }
@@ -55,7 +55,7 @@ module.exports = [
     path: '/metrics',
     handler: 'llm.getMetrics',
     config: {
-      policies: [],
+      policies: ['plugin::llm-agent.rate-limit'],
       auth: {
         scope: ['admin::is-authenticated']
       }

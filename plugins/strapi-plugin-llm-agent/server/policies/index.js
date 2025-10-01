@@ -5,4 +5,10 @@
 
 'use strict';
 
-module.exports = {};
+const rateLimit = require('./rate-limit');
+const validateContentType = require('./validate-content-type');
+
+module.exports = {
+  'rate-limit': rateLimit,
+  'validate-content-type': validateContentType,
+};

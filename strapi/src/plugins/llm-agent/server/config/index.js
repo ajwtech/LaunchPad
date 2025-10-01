@@ -54,9 +54,50 @@ module.exports = {
       maxTokensPerRequest: 8000,
       maxRequestsPerHour: 100,
       maxCostPerDay: 10.00, // USD
+      maxPromptLength: 5000, // Characters
+    },
+    security: {
+      // Security settings
+      validateInput: true,
+      sanitizeOutput: true,
+      logSensitiveData: false,
+      requireStrongAuth: true,
+      // Allowed content type patterns
+      allowedContentTypes: [
+        /^api::[a-z0-9-]+\.[a-z0-9-]+$/,
+        /^plugin::[a-z0-9-]+\.[a-z0-9-]+$/,
+      ],
+      // Blocked keywords in prompts (security)
+      blockedKeywords: [
+        'password',
+        'secret',
+        'token',
+        'key',
+        'credential',
+        'private',
+        'confidential',
+      ],
     },
   },
-  validator() {
+  validator(config) {
     // Configuration validation
+    if (config.limits) {
+      if (config.limits.maxTokensPerRequest > 32000) {
+        throw new Error('maxTokensPerRequest cannot exceed 32000');
+      }
+      if (config.limits.maxRequestsPerHour > 1000) {
+        throw new Error('maxRequestsPerHour cannot exceed 1000');
+      }
+      if (config.limits.maxPromptLength > 10000) {
+        throw new Error('maxPromptLength cannot exceed 10000 characters');
+      }
+    }
+    
+    // Validate at least one provider is configured
+    const providers = config.providers || {};
+    const enabledProviders = Object.values(providers).filter(p => p.enabled);
+    if (enabledProviders.length === 0) {
+      strapi.log.warn('No LLM providers are enabled. The plugin will not function until at least one provider is configured.');
+    }
   },
 };

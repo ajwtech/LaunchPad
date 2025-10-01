@@ -10,7 +10,7 @@ module.exports = ({ strapi }) => ({
     const config = strapi.config.get('plugin.llm-agent', {});
     const providers = [];
 
-    // Check each provider configuration
+    // Check each provider configuration - never expose credentials
     if (config.providers?.openai?.enabled) {
       providers.push({
         id: 'openai',
@@ -18,6 +18,7 @@ module.exports = ({ strapi }) => ({
         models: ['gpt-4o', 'gpt-4o-mini', 'gpt-4-turbo'],
         features: ['generateDraft', 'seoOptimize', 'streaming'],
         status: config.providers.openai.apiKey ? 'configured' : 'missing-key',
+        // Never include actual credentials in response
       });
     }
 
@@ -66,5 +67,42 @@ module.exports = ({ strapi }) => ({
       total: providers.length,
       configured: providers.filter(p => p.status === 'configured').length,
     };
+  },
+
+  // Helper method to safely get provider configuration without exposing secrets
+  getProviderConfig(providerId) {
+    const config = strapi.config.get('plugin.llm-agent', {});
+    const providerConfig = config.providers?.[providerId];
+    
+    if (!providerConfig || !providerConfig.enabled) {
+      return null;
+    }
+
+    // Return a sanitized version without credentials
+    return {
+      id: providerId,
+      enabled: providerConfig.enabled,
+      defaultModel: providerConfig.defaultModel,
+      maxTokens: providerConfig.maxTokens,
+      hasCredentials: this.hasValidCredentials(providerId, providerConfig),
+    };
+  },
+
+  // Private method to check credentials without exposing them
+  hasValidCredentials(providerId, config) {
+    switch (providerId) {
+      case 'openai':
+        return !!config.apiKey;
+      case 'anthropic':
+        return !!config.apiKey;
+      case 'bedrock':
+        return !!(config.accessKeyId && config.secretAccessKey);
+      case 'github':
+        return !!config.token;
+      case 'xai':
+        return !!config.apiKey;
+      default:
+        return false;
+    }
   },
 });

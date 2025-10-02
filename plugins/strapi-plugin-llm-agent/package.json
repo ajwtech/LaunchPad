@@ -1,5 +1,5 @@
 {
-  "name": "@ajwtech/strapi-plugin-llm-agent",
+  "name": "strapi-plugin-llm-agent",
   "version": "0.1.0",
   "description": "Strapi 5 plugin for AI-powered content generation and SEO optimization",
   "license": "MIT",

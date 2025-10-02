@@ -1,0 +1,17 @@
+{
+  "global.plugins.llm-agent.name": "LLM Agent",
+  "global.plugins.llm-agent.description": "AI-powered content generation and SEO optimization for Strapi",
+  "plugin.name": "LLM Agent",
+  "plugin.description": "AI-powered content generation and SEO optimization",
+  "settings.title": "LLM Agent Settings",
+  "settings.description": "Configure AI providers and generation settings",
+  "settings.tab.openai": "OpenAI",
+  "settings.tab.anthropic": "Anthropic",
+  "settings.tab.bedrock": "AWS Bedrock",
+  "settings.tab.github": "GitHub Models",
+  "settings.tab.xai": "xAI Grok",
+  "action.generate-draft": "Generate Draft",
+  "action.seo-optimize": "SEO Optimize",
+  "action.insert-suggestions": "Insert Suggestions",
+  "action.save": "Save"
+}

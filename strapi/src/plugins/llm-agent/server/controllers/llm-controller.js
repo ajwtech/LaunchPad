@@ -151,4 +151,103 @@ module.exports = ({ strapi }) => ({
       ctx.throw(500, 'An error occurred while retrieving metrics');
     }
   },
+
+  async getConfig(ctx) {
+    try {
+      // Check permissions
+      await strapi.admin.services.permission.check(ctx.state.user, 'plugin::llm-agent.settings.read');
+      
+      // Get plugin config
+      const pluginStore = strapi.store({
+        type: 'plugin',
+        name: 'llm-agent',
+      });
+      
+      let config = await pluginStore.get({ key: 'settings' });
+      
+      // If no config exists, return default config
+      if (!config) {
+        config = strapi.plugin('llm-agent').config('default');
+      }
+      
+      // Don't expose sensitive data (API keys, etc.)
+      const sanitized = {
+        ...config,
+        providers: Object.keys(config.providers || {}).reduce((acc, key) => {
+          const provider = config.providers[key];
+          acc[key] = {
+            enabled: provider.enabled,
+            defaultModel: provider.defaultModel,
+            maxTokens: provider.maxTokens,
+            // Include region for bedrock
+            ...(key === 'bedrock' && { region: provider.region }),
+          };
+          return acc;
+        }, {}),
+      };
+      
+      ctx.send(sanitized);
+    } catch (error) {
+      strapi.log.error('LLM getConfig error:', error);
+      ctx.throw(500, 'An error occurred while retrieving configuration');
+    }
+  },
+
+  async updateConfig(ctx) {
+    try {
+      // Check permissions
+      await strapi.admin.services.permission.check(ctx.state.user, 'plugin::llm-agent.settings.update');
+      
+      const { providers } = ctx.request.body;
+      
+      // Validate input
+      if (!providers || typeof providers !== 'object') {
+        return ctx.badRequest('Invalid configuration format');
+      }
+      
+      // Get plugin store
+      const pluginStore = strapi.store({
+        type: 'plugin',
+        name: 'llm-agent',
+      });
+      
+      // Get current config
+      let currentConfig = await pluginStore.get({ key: 'settings' });
+      if (!currentConfig) {
+        currentConfig = strapi.plugin('llm-agent').config('default');
+      }
+      
+      // Merge with new provider settings
+      const updatedConfig = {
+        ...currentConfig,
+        providers: {
+          ...currentConfig.providers,
+          ...providers,
+        },
+      };
+      
+      // Save to store
+      await pluginStore.set({ key: 'settings', value: updatedConfig });
+      
+      // Return sanitized config (without sensitive data)
+      const sanitized = {
+        ...updatedConfig,
+        providers: Object.keys(updatedConfig.providers).reduce((acc, key) => {
+          const provider = updatedConfig.providers[key];
+          acc[key] = {
+            enabled: provider.enabled,
+            defaultModel: provider.defaultModel,
+            maxTokens: provider.maxTokens,
+            ...(key === 'bedrock' && { region: provider.region }),
+          };
+          return acc;
+        }, {}),
+      };
+      
+      ctx.send(sanitized);
+    } catch (error) {
+      strapi.log.error('LLM updateConfig error:', error);
+      ctx.throw(500, 'An error occurred while updating configuration');
+    }
+  },
 });

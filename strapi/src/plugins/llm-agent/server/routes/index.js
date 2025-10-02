@@ -61,4 +61,26 @@ module.exports = [
       }
     },
   },
+  {
+    method: 'GET',
+    path: '/config',
+    handler: 'llm.getConfig',
+    config: {
+      policies: ['plugin::llm-agent.rate-limit'],
+      auth: {
+        scope: ['admin::is-authenticated']
+      }
+    },
+  },
+  {
+    method: 'PUT',
+    path: '/config',
+    handler: 'llm.updateConfig',
+    config: {
+      policies: ['plugin::llm-agent.rate-limit'],
+      auth: {
+        scope: ['admin::is-authenticated']
+      }
+    },
+  },
 ];

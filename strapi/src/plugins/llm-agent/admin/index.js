@@ -56,6 +56,21 @@ export default {
   },
 
   async bootstrap(app) {
-    // Nothing to bootstrap yet
+    // Inject buttons into Content Manager edit view
+    app.injectContentManagerComponent('editView', 'right-links', {
+      name: 'llm-agent-generate',
+      Component: async () => {
+        const component = await import('./src/components/GenerateButton');
+        return component;
+      },
+    });
+
+    app.injectContentManagerComponent('editView', 'right-links', {
+      name: 'llm-agent-optimize-seo',
+      Component: async () => {
+        const component = await import('./src/components/OptimizeSEOButton');
+        return component;
+      },
+    });
   },
 };

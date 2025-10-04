@@ -151,4 +151,192 @@ module.exports = ({ strapi }) => ({
       ctx.throw(500, 'An error occurred while retrieving metrics');
     }
   },
+
+  async getConfig(ctx) {
+    try {
+      // Get plugin config
+      const pluginStore = strapi.store({
+        type: 'plugin',
+        name: 'llm-agent',
+      });
+      
+      let config = await pluginStore.get({ key: 'settings' });
+      
+      // If no config exists, return default config
+      if (!config) {
+        config = {
+          providers: {
+            openai: { enabled: false, apiKey: '', defaultModel: 'gpt-4o', maxTokens: 4096 },
+            anthropic: { enabled: false, apiKey: '', defaultModel: 'claude-3-5-sonnet-20241022', maxTokens: 4096 },
+            bedrock: { enabled: false, accessKeyId: '', secretAccessKey: '', region: 'us-east-1', defaultModel: 'anthropic.claude-3-5-sonnet-20241022-v2:0', maxTokens: 4096 },
+            github: { enabled: false, token: '', defaultModel: 'gpt-4o', maxTokens: 4096 },
+            xai: { enabled: false, apiKey: '', defaultModel: 'grok-beta', maxTokens: 4096 },
+          },
+        };
+      }
+      
+      // Don't expose sensitive data (API keys, etc.)
+      const sanitized = {
+        ...config,
+        providers: Object.keys(config.providers || {}).reduce((acc, key) => {
+          const provider = config.providers[key];
+          acc[key] = {
+            enabled: provider.enabled,
+            defaultModel: provider.defaultModel,
+            maxTokens: provider.maxTokens,
+            // Include region for bedrock
+            ...(key === 'bedrock' && { region: provider.region }),
+          };
+          return acc;
+        }, {}),
+      };
+      
+      ctx.send(sanitized);
+    } catch (error) {
+      strapi.log.error('LLM getConfig error:', error);
+      ctx.throw(500, 'An error occurred while retrieving configuration');
+    }
+  },
+
+  async updateConfig(ctx) {
+    try {
+      const body = ctx.request.body;
+      
+      // Validate input - accept either { providers: {...} } or the full config object
+      const providers = body.providers || body;
+      
+      if (!providers || typeof providers !== 'object') {
+        return ctx.badRequest('Invalid configuration format');
+      }
+      
+      // Get plugin store
+      const pluginStore = strapi.store({
+        type: 'plugin',
+        name: 'llm-agent',
+      });
+      
+      // Get current config or use default
+      let currentConfig = await pluginStore.get({ key: 'settings' });
+      if (!currentConfig) {
+        currentConfig = {
+          providers: {
+            openai: { enabled: false, apiKey: '', defaultModel: 'gpt-4o', maxTokens: 4096 },
+            anthropic: { enabled: false, apiKey: '', defaultModel: 'claude-3-5-sonnet-20241022', maxTokens: 4096 },
+            bedrock: { enabled: false, accessKeyId: '', secretAccessKey: '', region: 'us-east-1', defaultModel: 'anthropic.claude-3-5-sonnet-20241022-v2:0', maxTokens: 4096 },
+            github: { enabled: false, token: '', defaultModel: 'gpt-4o', maxTokens: 4096 },
+            xai: { enabled: false, apiKey: '', defaultModel: 'grok-beta', maxTokens: 4096 },
+          },
+        };
+      }
+      
+      // Merge with new provider settings
+      const updatedConfig = {
+        ...currentConfig,
+        providers: {
+          ...currentConfig.providers,
+          ...providers,
+        },
+      };
+      
+      // Save to store
+      await pluginStore.set({ key: 'settings', value: updatedConfig });
+      
+      // Return sanitized config (without sensitive data)
+      const sanitized = {
+        ...updatedConfig,
+        providers: Object.keys(updatedConfig.providers).reduce((acc, key) => {
+          const provider = updatedConfig.providers[key];
+          acc[key] = {
+            enabled: provider.enabled,
+            defaultModel: provider.defaultModel,
+            maxTokens: provider.maxTokens,
+            ...(key === 'bedrock' && { region: provider.region }),
+          };
+          return acc;
+        }, {}),
+      };
+      
+      ctx.send(sanitized);
+    } catch (error) {
+      strapi.log.error('LLM updateConfig error:', error);
+      ctx.throw(500, 'An error occurred while updating configuration');
+    }
+  },
+
+  /**
+   * Fetch available models for a provider
+   */
+  async getProviderModels(ctx) {
+    try {
+      const { provider } = ctx.params;
+      const { credentials } = ctx.request.body;
+
+      if (!provider) {
+        return ctx.badRequest('Provider name is required');
+      }
+
+      // GitHub doesn't require credentials to fetch models
+      if (!credentials && provider !== 'github') {
+        return ctx.badRequest('Provider credentials are required');
+      }
+
+      const providerService = strapi.plugin('llm-agent').service('provider');
+      let result;
+
+      switch (provider) {
+        case 'openai':
+          if (!credentials.apiKey) {
+            return ctx.badRequest('API key is required for OpenAI');
+          }
+          result = await providerService.getOpenAIModels(credentials.apiKey);
+          break;
+
+        case 'anthropic':
+          if (!credentials.apiKey) {
+            return ctx.badRequest('API key is required for Anthropic');
+          }
+          result = await providerService.getAnthropicModels(credentials.apiKey);
+          break;
+
+        case 'bedrock':
+          if (!credentials.accessKeyId || !credentials.secretAccessKey || !credentials.region) {
+            return ctx.badRequest('AWS credentials (accessKeyId, secretAccessKey, region) are required for Bedrock');
+          }
+          result = await providerService.getBedrockModels(credentials);
+          break;
+
+        case 'github':
+          // GitHub catalog is public, token is optional
+          result = await providerService.getGitHubModels(credentials?.token || '');
+          break;
+          if (!credentials.accessKeyId || !credentials.secretAccessKey || !credentials.region) {
+            return ctx.badRequest('AWS credentials (accessKeyId, secretAccessKey, region) are required for Bedrock');
+          }
+          result = await providerService.getBedrockModels(credentials);
+          break;
+
+        case 'github':
+          if (!credentials.token) {
+            return ctx.badRequest('Token is required for GitHub Models');
+          }
+          result = await providerService.getGitHubModels(credentials.token);
+          break;
+
+        case 'xai':
+          if (!credentials.apiKey) {
+            return ctx.badRequest('API key is required for xAI');
+          }
+          result = await providerService.getXAIModels(credentials.apiKey);
+          break;
+
+        default:
+          return ctx.badRequest(`Unknown provider: ${provider}`);
+      }
+
+      ctx.send(result);
+    } catch (error) {
+      strapi.log.error('Get provider models error:', error);
+      ctx.throw(500, 'An error occurred while fetching provider models');
+    }
+  },
 });

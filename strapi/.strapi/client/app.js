@@ -7,6 +7,7 @@ import colorPicker from "@strapi/plugin-color-picker/strapi-admin";
 import documentation from "@strapi/plugin-documentation/strapi-admin";
 import seo from "@strapi/plugin-seo/strapi-admin";
 import usersPermissions from "@strapi/plugin-users-permissions/strapi-admin";
+import llmAgent from "../../src/plugins/llm-agent/strapi-admin";
 import { renderAdmin } from "@strapi/strapi/admin";
 
 renderAdmin(document.getElementById("strapi"), {
@@ -17,5 +18,6 @@ renderAdmin(document.getElementById("strapi"), {
     documentation: documentation,
     seo: seo,
     "users-permissions": usersPermissions,
+    "llm-agent": llmAgent,
   },
 });

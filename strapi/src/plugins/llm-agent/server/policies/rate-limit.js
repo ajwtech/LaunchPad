@@ -8,16 +8,16 @@
 /**
  * Rate limiting policy to prevent abuse of AI endpoints
  */
-module.exports = async (policyContext, config, { strapi }) => {
-  const { ctx } = policyContext;
-  const userId = ctx.state.user?.id;
+module.exports = (policyContext, config, { strapi }) => {
+  const ctx = policyContext;
+  const userId = ctx?.state?.user?.id;
   
   if (!userId) {
     return ctx.unauthorized('Authentication required');
   }
 
   // Get rate limiting configuration
-  const pluginConfig = strapi.config.get('plugin.llm-agent', {});
+  const pluginConfig = strapi.config.get('plugin::llm-agent', {});
   const maxRequestsPerHour = pluginConfig.limits?.maxRequestsPerHour || 100;
   
   // Create a simple in-memory rate limiter (in production, use Redis)

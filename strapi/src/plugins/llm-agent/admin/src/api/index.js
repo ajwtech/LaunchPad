@@ -17,6 +17,11 @@ export const settingsApi = {
     const { data } = await put('/llm-agent/config', config);
     return data;
   },
+
+  async getProviderModels(provider, credentials) {
+    const { data } = await post(`/llm-agent/providers/${provider}/models`, { credentials });
+    return data;
+  },
 };
 
 export const providersApi = {

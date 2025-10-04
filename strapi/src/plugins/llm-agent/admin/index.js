@@ -9,68 +9,59 @@ const PLUGIN_ID = 'llm-agent';
 
 export default {
   register(app) {
-    // Register plugin settings link
-    app.createSettingsSection(
-      {
-        id: PLUGIN_ID,
-        intlLabel: {
-          id: `${PLUGIN_ID}.plugin.name`,
-          defaultMessage: 'LLM Agent',
-        },
-      },
-      [
-        {
-          intlLabel: {
-            id: `${PLUGIN_ID}.settings.title`,
-            defaultMessage: 'Configuration',
-          },
-          id: 'settings',
-          to: `/settings/${PLUGIN_ID}`,
-          Component: async () => {
-            const component = await import('./src/pages/SettingsPage');
-            return component;
-          },
-        },
-      ]
-    );
+    // Register plugin
+    app.registerPlugin({
+      id: PLUGIN_ID,
+      name: PLUGIN_ID,
+    });
 
     // Register main menu link
     app.addMenuLink({
-      to: `/plugins/${PLUGIN_ID}`,
+      to: `llm-agent`,
       icon: Sparkle,
       intlLabel: {
         id: `${PLUGIN_ID}.plugin.name`,
         defaultMessage: 'LLM Agent',
       },
       Component: async () => {
-        const component = await import('./src/pages/HomePage');
-        return component;
+        return import('./src/pages/SettingsPage');
       },
-      permissions: [],
     });
 
-    app.registerPlugin({
-      id: PLUGIN_ID,
-      name: PLUGIN_ID,
-    });
+    console.log('LLM Agent Plugin: Admin panel registered');
   },
 
   async bootstrap(app) {
-    // Inject buttons into Content Manager edit view
-    app.injectContentManagerComponent('editView', 'right-links', {
-      name: 'llm-agent-generate',
-      Component: async () => {
-        const component = await import('./src/components/GenerateButton');
-        return component;
-      },
-    });
-
-    app.injectContentManagerComponent('editView', 'right-links', {
-      name: 'llm-agent-optimize-seo',
-      Component: async () => {
-        const component = await import('./src/components/OptimizeSEOButton');
-        return component;
-      },
-    });
+    console.log('LLM Agent Plugin: Admin panel bootstrapped');
   },
+
+  async registerTrads({ locales }) {
+    const importedTrads = await Promise.all(
+      locales.map((locale) => {
+        return import(`./src/translations/${locale}.js`)
+          .then(({ default: data }) => {
+            return {
+              data: prefixPluginTranslations(data, PLUGIN_ID),
+              locale,
+            };
+          })
+          .catch(() => {
+            return {
+              data: {},
+              locale,
+            };
+          });
+      })
+    );
+
+    return Promise.resolve(importedTrads);
+  },
+};
+
+// Helper function to prefix translation keys
+function prefixPluginTranslations(trad, pluginId) {
+  return Object.keys(trad).reduce((acc, current) => {
+    acc[`${pluginId}.${current}`] = trad[current];
+    return acc;
+  }, {});
 };
